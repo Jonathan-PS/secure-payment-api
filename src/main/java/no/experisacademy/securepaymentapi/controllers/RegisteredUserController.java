@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 public class RegisteredUserController {
 
@@ -22,10 +23,10 @@ public class RegisteredUserController {
   }
 
   /* Returns a user. Matched on the email-address which is the primary key in the DB */
-  @GetMapping("/user/{email}")
-  public user findUserByEmail(@PathVariable String email) {
-      for (user u : RegisteredUser.getEmail()) {
-          if (u.getEmail() == (email)) {
+  @GetMapping("/user/{userID")
+  public user findUserByUserId(@PathVariable Long userId) {
+      for (user u : RegisteredUser.getUserId()) {
+          if (u.getUserId() == (userId)) {
               return u;
           }
       }
