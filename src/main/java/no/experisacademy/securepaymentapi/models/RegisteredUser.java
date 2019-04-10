@@ -47,11 +47,11 @@ public class RegisteredUser implements Serializable {
   }
 
   public long getRegistedUserId() {
-    return userId;
+    return registeredUserId;
   }
 
   public void setUserId(long id) {
-    this.userId = userId;
+    this.registeredUserId = registeredUserId;
   }
 
   public String getFirstName() {
