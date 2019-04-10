@@ -1,6 +1,7 @@
 package no.experisacademy.securepaymentapi;
 
 import no.experisacademy.securepaymentapi.repositories.ProductRepository;
+import no.experisacademy.securepaymentapi.repositories.RegisteredUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
