@@ -3,13 +3,6 @@ package no.experisacademy.securepaymentapi;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import no.experisacademy.securepaymentapi.repositories.ProductRepository;
-import no.experisacademy.securepaymentapi.repositories.RegisteredUserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Customer;
@@ -37,7 +30,7 @@ public class Application {
 		Map<String, Object> customerParameter = new HashMap<String, Object>();
 		customerParameter.put("email", "ola@normann.com");
 		Customer newCustomer = Customer.create(customerParameter);
-		System.out.println(newCustomer.getId());
+		System.out.println(newCustomer.getProductId());
 		*/
 
 

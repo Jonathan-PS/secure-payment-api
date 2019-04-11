@@ -8,9 +8,9 @@ import java.io.Serializable;
 public class Product implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
-    private long id;
+    private long productId;
 
     @Column(name = "product_name")
     private String productName;
@@ -25,30 +25,31 @@ public class Product implements Serializable {
     private int quantity;
 
     @Column(name = "image_url")
-    private String imageURL;
+    private String imageUrl;
 
     @Column(name = "is_active")
-    private Boolean isActive;
+    private boolean isActive;
 
     public Product(){
 
     }
 
-    public Product(String productName, String description, double priceEach, int quantity, String imageURL, Boolean isActive) {
+    public Product(Long productId, String productName, String description, double priceEach, int quantity, String imageUrl, Boolean isActive) {
+        this.productId = productId;
         this.productName = productName;
         this.description = description;
         this.priceEach = priceEach;
         this.quantity = quantity;
-        this.imageURL = imageURL;
+        this.imageUrl = imageUrl;
         this.isActive = isActive;
     }
 
-    public long getId() {
-        return id;
+    public long getProductId() {
+        return productId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setProductId(long productId) {
+        this.productId = productId;
     }
 
     public String getProductName() {
@@ -83,12 +84,12 @@ public class Product implements Serializable {
         this.quantity = quantity;
     }
 
-    public String getImageURL() {
-        return imageURL;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public Boolean getActive() {
