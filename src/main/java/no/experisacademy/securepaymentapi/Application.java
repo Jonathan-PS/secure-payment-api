@@ -20,7 +20,7 @@ public class Application {
 	public static void main(String[] args) throws StripeException{
 		Stripe.apiKey="sk_test_5B0GI5Lt8GUHvvptHkURkfY000Xj6Tvvii";
 
-		//getAllCustomers();
+		// getAllCustomers();
 
 		SpringApplication.run(Application.class, args);
 
