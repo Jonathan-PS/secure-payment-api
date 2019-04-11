@@ -37,7 +37,7 @@ public class Application {
 		Map<String, Object> customerParameter = new HashMap<String, Object>();
 		customerParameter.put("email", "ola@normann.com");
 		Customer newCustomer = Customer.create(customerParameter);
-		System.out.println(newCustomer.getId());
+		System.out.println(newCustomer.getProductId());
 		*/
 
 
