@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class Product implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
     private long productId;
 
@@ -28,7 +28,7 @@ public class Product implements Serializable {
     private String imageUrl;
 
     @Column(name = "is_active")
-    private Boolean isActive;
+    private boolean isActive;
 
     public Product(){
 
