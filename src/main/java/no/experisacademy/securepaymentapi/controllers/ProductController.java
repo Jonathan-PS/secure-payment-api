@@ -24,8 +24,14 @@ public class ProductController {
     @GetMapping("/products/{productId}")
     public Product findProductById(@PathVariable long productId){
         Optional<Product> product = repository.findById(productId);
+        try{
+            return product.get();
+        }catch(Exception e){
+            System.out.println("Product Not found");
+            return null;
+        }
 
-        return product.get();
+
     }
 
     /*@GetMapping("/products/{productId}")
