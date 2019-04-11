@@ -3,16 +3,11 @@ package no.experisacademy.securepaymentapi;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import no.experisacademy.securepaymentapi.repositories.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
+import com.stripe.model.Customer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import com.stripe.Stripe;
-import com.stripe.model.Customer;
-import com.stripe.exception.StripeException;
-import com.stripe.model.Charge;
-import com.stripe.net.RequestOptions;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,8 +15,8 @@ import java.util.Map;
 @SpringBootApplication
 public class Application {
 
-	@Autowired
-	ProductRepository repository;
+	/*@Autowired
+	ProductRepository repository;*/
 	public static void main(String[] args) throws StripeException{
 		Stripe.apiKey="sk_test_5B0GI5Lt8GUHvvptHkURkfY000Xj6Tvvii";
 
