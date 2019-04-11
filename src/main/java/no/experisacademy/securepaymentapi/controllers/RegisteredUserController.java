@@ -22,16 +22,16 @@ public class RegisteredUserController {
     return registeredUsers;
   }
 
-  /* Returns a user. Matched on the email-address which is the primary key in the DB
+  /* Returns a user. Matched on the email-address which is the primary key in the DB */
   @GetMapping("/user/{userID")
   public user findUserByUserId(@PathVariable Long userId) {
-      for (user u : RegisteredUser.getUserId()) {
+      for (user u : RegisteredUser.getRegistedUserId()) {
           if (u.getUserId() == (userId)) {
               return u;
           }
       }
       return null;
-  }*/
+  }
 
   /* Method for creating a new user */
   @PutMapping("/createuser")
