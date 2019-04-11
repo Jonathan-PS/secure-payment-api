@@ -1,3 +1,4 @@
+/*
 package no.experisacademy.securepaymentapi.controllers;
 
 import no.experisacademy.securepaymentapi.models.Checkout;
@@ -25,4 +26,4 @@ public class CheckoutController {
         //model.addAttribute("currency", ChargeRequest.Currency.EUR);
         return "checkout";
     }
-}
+}*/

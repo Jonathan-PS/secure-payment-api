@@ -1,18 +1,20 @@
 package no.experisacademy.securepaymentapi;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.stripe.model.Token;
 import no.experisacademy.securepaymentapi.repositories.ProductRepository;
 import no.experisacademy.securepaymentapi.repositories.RegisteredUserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import com.stripe.Stripe;
-import com.stripe.model.Customer;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
+import com.stripe.model.Customer;
+import com.stripe.model.Token;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,8 +26,9 @@ public class Application {
 	private static String newCustomerCusId = "cus_ErjwhB11tYVZGH";
 	private static String olaNormannCusId = "cus_ErLVczAX1v7jpH";
 
-	@Autowired
-	ProductRepository repository;
+  
+	/*@Autowired
+	ProductRepository repository;*/
 	public static void main(String[] args) throws StripeException{
 		/*
 		 * There are two ways of authenticating requests when

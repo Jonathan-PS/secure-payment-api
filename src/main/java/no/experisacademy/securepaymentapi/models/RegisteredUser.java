@@ -37,6 +37,11 @@ public class RegisteredUser implements Serializable {
   public RegisteredUser() {
   }
 
+  public RegisteredUser(String password, String email) {
+    this.password = password;
+    this.email = email;
+  }
+
   public RegisteredUser(String firstName, String lastName, String password, String email, int activeAddressId, Boolean isActive) {
     this.firstName = firstName;
     this.lastName = lastName;
