@@ -4,6 +4,7 @@ package no.experisacademy.securepaymentapi;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import no.experisacademy.securepaymentapi.repositories.ProductRepository;
+import no.experisacademy.securepaymentapi.repositories.RegisteredUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
