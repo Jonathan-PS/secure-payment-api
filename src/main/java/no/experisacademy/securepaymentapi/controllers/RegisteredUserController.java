@@ -25,9 +25,9 @@ public class RegisteredUserController {
   }
 
   /* Returns a user. Matched on the email-address which is the primary key in the DB */
-  @GetMapping("/users/{registeredUserID}")
-  public RegisteredUser findUserByUserId(@PathVariable long registeredUserID) {
-    Optional<RegisteredUser> registeredUser = repository.findById(registeredUserID);
+  @GetMapping("/users/{registeredUserId}")
+  public RegisteredUser findUserByUserId(@PathVariable long registeredUserId) {
+    Optional<RegisteredUser> registeredUser = repository.findById(registeredUserId);
     try {
       return registeredUser.get();
     } catch (Exception e) {
