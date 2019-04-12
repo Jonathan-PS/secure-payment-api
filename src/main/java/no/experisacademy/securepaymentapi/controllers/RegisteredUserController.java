@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -24,25 +25,26 @@ public class RegisteredUserController {
   }
 
   /* Returns a user. Matched on the email-address which is the primary key in the DB */
-  @GetMapping("/user/{userID")
-  public user findUserByUserId(@PathVariable Long userId) {
-      for (user u : RegisteredUser.getRegistedUserId()) {
-          if (u.getUserId() == (userId)) {
-              return u;
-          }
-      }
+  @GetMapping("/users/{registeredUserID}")
+  public RegisteredUser findUserByUserId(@PathVariable long registeredUserID) {
+    Optional<RegisteredUser> registeredUser = repository.findById(registeredUserID);
+    try {
+      return registeredUser.get();
+    } catch (Exception e) {
+      System.out.println("User not found");
       return null;
+    }
   }
 
   /* Method for creating a new user */
-  @PutMapping("/createuser")
+  @PutMapping("/users/create")
   public String create(@RequestBody RegisteredUser registeredUser) {
     repository.save(new RegisteredUser(registeredUser.getFirstName(), registeredUser.getLastName(), registeredUser.getPassword(), registeredUser.getEmail(), registeredUser.getActiveAddressId(), true));
 
       return "New user is created";
   }
 
-  @GetMapping("/loginuser")
+  @GetMapping("/users/login")
   public boolean login(@RequestBody RegisteredUser registeredUser, HttpServletRequest req) {
 
     try {

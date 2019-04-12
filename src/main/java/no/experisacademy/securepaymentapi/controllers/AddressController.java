@@ -20,12 +20,11 @@ public class AddressController {
   @GetMapping("/addresses")
   public List<Address> findAllAddresses() {
     List<Address> addresses = repository.findAll();
-
     return addresses;
   }
 
   /* Creates a new address */
-  @PutMapping("/createaddress")
+  @PutMapping("/addresses/create")
   public String create(@RequestBody Address address) {
     repository.save(new Address(address.getRegisterdUserId(), address.getStreetName(), address.getStreetNumber(), address.getHousingCode(), address.getCity(), address.getPostalCode(), address.getCountry(), true));
 

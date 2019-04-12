@@ -35,7 +35,7 @@ public class ProductController {
 
     }
 
-    /*@GetMapping("/products/{productId}")
+    /*@GetMapping("/product/{productId}")
     public Product findProductById(@PathVariable long productId, HttpServletRequest req){
         Optional<Product> product = repository.findById(productId);
         req.getSession().setAttribute("cart", myCart);
@@ -43,7 +43,7 @@ public class ProductController {
         return product.get();
     }*/
 
-    @PostMapping("/createProduct")
+    @PostMapping("/products/create")
     public String create(@RequestBody Product product){
         repository.save(new Product(product.getProductId(), product.getProductName(), product.getDescription(), product.getPriceEach(), product.getQuantity(), product.getImageUrl(), true));
 

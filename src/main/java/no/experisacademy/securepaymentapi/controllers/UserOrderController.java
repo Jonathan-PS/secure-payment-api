@@ -24,7 +24,7 @@ public class UserOrderController {
         return userOrders;
     }
 
-    @PostMapping("/createOrder")
+    @PostMapping("/orders/create")
     public String createOreder(@RequestBody UserOrder userOrder) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
