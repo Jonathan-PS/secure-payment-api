@@ -9,7 +9,7 @@ public class Address implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "address_id")
+    @JoinColumn(name = "address_id")
     private long addressId;
 
     @Column(name = "registered_user_id")
