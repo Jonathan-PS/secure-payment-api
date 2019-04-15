@@ -1,5 +1,7 @@
 package no.experisacademy.securepaymentapi;
 
+
+import com.stripe.model.*;
 import no.experisacademy.securepaymentapi.repositories.ProductRepository;
 import no.experisacademy.securepaymentapi.repositories.RegisteredUserRepository;
 
@@ -12,42 +14,24 @@ import com.google.gson.GsonBuilder;
 
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
-import com.stripe.model.Charge;
-import com.stripe.model.Customer;
-import com.stripe.model.Token;
 
 import java.util.HashMap;
 import java.util.Map;
+
 
 @SpringBootApplication
 public class Application {
 
 	private static String secretApiKey ="sk_test_5B0GI5Lt8GUHvvptHkURkfY000Xj6Tvvii";
-	private static String newCustomerCusId = "cus_ErjwhB11tYVZGH";
-	private static String olaNormannCusId = "cus_ErLVczAX1v7jpH";
 
   
 	/*@Autowired
 	ProductRepository repository;*/
 	public static void main(String[] args) throws StripeException{
-		/*
-		 * There are two ways of authenticating requests when
-		 * using the Stripe API on behalf of a connected account
-		 * --> Using the Stripe-Account header and the connected account’s ID
-		 * --> Using the connected account’s API keys
-		 *
-		 * You should use the Stripe-Account header method when possible: it’s easier and more secure.
-		 * The second approach is supported for legacy compatibility, but generally shouldn’t be used
-		 * in new applications. Both approaches require that you store the connected account’s
-		 * information—ID or API keys–when connecting the account to your platform.
-		 * Read more: https://stripe.com/docs/connect/authentication
-		 */
 
-		// LESS SECURE: Connected account’s SECRET API KEY
-		Stripe.apiKey=secretApiKey;
-		//Stripe.apiKey = "{{PLATFORM_SECRET_KEY}}";
+		// LESS SECURE: Connected account’s SECRET API KEY,
 		// MORE SECURE: Stripe-Account header and the connected account’s ID
-		//RequestOptions requestOptions = RequestOptions.builder().setStripeAccount(CONNECTED_STRIPE_ACCOUNT_ID).build();
+		Stripe.apiKey=secretApiKey;
 
 
 		/*_____________________ USING METHODS _____________________*/
@@ -60,14 +44,11 @@ public class Application {
 		//getCustomerInfoFromId("cus_ErjwhB11tYVZGH");
 
 		// CREATE CARD (FOR CUSTOMER ID)
-		/*
-		createCardForId("cus_ErjwhB11tYVZGH",	"4242_4242_4242_4242",
-						"04", "2020", "123");
-		*/
+		//createCardForId("cus_ErLVczAX1v7jpH",	"4000005780000007","04", "2020", "123");
 
 		// ADD PAYMENT (FOR CUSTOMER ID)
-		//addPaymentsCusId("cus_ErjwhB11tYVZGH", 2000, "nok");
-		//addPaymentsCardId("cus_ErjwhB11tYVZGH", 3000, "nok", "tok_visa");
+		//addPaymentDefaultCard("cus_ErjwhB11tYVZGH", 2000, "nok");
+		//addPaymentSelectCard("cus_ErjwhB11tYVZGH","card_1EOAxYDNGKvGPvcfQVmRK9J0", 3000, "nok", "tok_visa");
 
 		// RUN SPRING APPLICATION
 		SpringApplication.run(Application.class, args);
@@ -77,16 +58,17 @@ public class Application {
 	/* _________________________ METHODS _________________________*/
 
 	/**
+	 * Get Customer Info
 	 *
-	 * @param cus_id
-	 * @throws StripeException
+	 * @param cusId Customer ID
+	 * @throws StripeException ExceptionHandling
 	 */
-	public static void getCustomerInfoFromId(String cus_id) throws StripeException {
+	public static void getCustomerInfoFromId(String cusId) throws StripeException {
 		// Get customer info from id
-		Customer customer = Customer.retrieve(cus_id);
+		Customer customer = Customer.retrieve(cusId);
 
 		// Print to console
-		System.out.println("_____CUSTOMER INFO for id :"+cus_id+"_____");
+		System.out.println("_____CUSTOMER INFO for id :"+cusId+"_____");
 		System.out.println("\nGet last resonse: "+customer.getLastResponse().requestId());
 		System.out.println("\nCustomer info: ");
 		gsonPrettyPrint(customer);
@@ -94,8 +76,9 @@ public class Application {
 
 	/**
 	 * Create a Stripe customer
+	 *
 	 * @param email from input
-	 * @throws StripeException
+	 * @throws StripeException ExceptionHandling
 	 */
 	public static void createCustomer(String email) throws StripeException {
 		// Create new Customer with email
@@ -107,24 +90,15 @@ public class Application {
 		System.out.println("\nNew customer created!\n\tEmail: "+email+"\n\tID: "+newCustomer.getId()+"\n");
 	}
 
-	/**
-	 *
-	 * @param cus_id
-	 * @param cardNum
-	 * @param exp_month
-	 * @param exp_year
-	 * @param cvc
-	 * @throws StripeException
-	 */
-	public static void createCardForId(String cus_id, String cardNum, String exp_month,
-									   String exp_year, String cvc) throws StripeException{
-
+	public static void createCardForId(String cusId, String cardNum, String expMonth,
+									   String expYear, String cvc) throws StripeException{
 		// Set card parameters
-		Customer customer = Customer.retrieve(cus_id);
+		Customer customer = Customer.retrieve(cusId);
+		PaymentSourceCollection allCardDetails = customer.getSources();
 		Map<String, Object> cardParam = new HashMap<String, Object>();
 		cardParam.put("number",cardNum);
-		cardParam.put("exp_month",exp_month);
-		cardParam.put("exp_year",exp_year);
+		cardParam.put("exp_month",expMonth);
+		cardParam.put("exp_year",expYear);
 		cardParam.put("cvc",cvc);
 
 		// Add card parameters to tokenParam
@@ -134,27 +108,53 @@ public class Application {
 		// Create token
 		Token token = Token.create(tokenParam);
 
-		// Add token parameters to source
-		Map<String, Object> source = new HashMap<String, Object>();
-		source.put("source", token.getId());
+		// CHECK IF CARD ALREADY EXIST
+		boolean cardIsNotExist = true;
+		Gson gson = new Gson();
+		Gson gsonPretty = new GsonBuilder().setPrettyPrinting().create();
 
-		// Add token to Customer
-		customer.getSources().create(source);
+		for (int i=0; i<allCardDetails.getData().size(); i++) {
+			String jsonObject = gsonPretty.toJson(allCardDetails.getData().get(i));
+			Card card = gson.fromJson(jsonObject, Card.class);
+			if (card.getFingerprint().equals(token.getCard().getFingerprint())) {
+				cardIsNotExist = false;
+				break;
+			}
+		}
 
-		// Print to console
-		System.out.println("Customer card for id "+ cus_id +"is created!");
-		gsonPrettyPrint(customer);
-		System.out.println("Token: ");
-		gsonPrettyPrint(token);
+		if (cardIsNotExist) {
+			// Add token parameters to source
+			Map<String, Object> source = new HashMap<String, Object>();
+			source.put("source", token.getId());
+
+			// Add token to Customer
+			customer.getSources().create(source);
+
+			// Print to console
+			System.out.println("Customer card for id "+ cusId +"is created!\n");
+			System.out.println("Customer ID: "+customer.getId());
+			System.out.println("Customer email: "+customer.getEmail());
+			System.out.println("Card ID: "+customer.getDefaultSource());
+			System.out.println("Currency: "+customer.getCurrency());
+			System.out.println("Shipping: ");
+			gsonPrettyPrint(customer.getShipping());
+			//gsonPrettyPrint(customer);
+			//System.out.println("Token (but prints Response body): ");
+			//gsonPrettyPrint(token);
+		} else {
+			System.out.println("Card already exist!");
+		}
 	}
+
 	/**
 	 * ADD PAYMENTS
-	 * @param cus_id
-	 * @throws StripeException
+	 *
+	 * @param cusId Customer ID
+	 * @throws StripeException ExceptionHandling
 	 */
-	public static void addPaymentsCusId(String cus_id, int amount, String currency, String description) throws StripeException {
+	public static void addPaymentDefaultCard(String cusId, int amount, String currency, String description) throws StripeException {
 
-		Customer customer = Customer.retrieve(cus_id);
+		Customer customer = Customer.retrieve(cusId);
 		Map<String, Object> chargeParam = new HashMap<String, Object>();
 
 		// Convert params to correct Stripe params
@@ -165,26 +165,35 @@ public class Application {
 		chargeParam.put("amount", amountString); // 100 = 1.00 currency
 		chargeParam.put("currency",currencyToLower); // for cents min 50
 		chargeParam.put("description", description);
-		chargeParam.put("customer",customer.getId()); // USING CUSTOMER ID (default card) and NOT SOURCE/CARD!
+		chargeParam.put("customer",customer.getId()); // Using Customer ID (and get default card!)
 		//chargeParam.put("source", "tok_mastercard");
 		// ^ obtained with Stripe.js
 
 		// METADATA - Order_id
 		Map<String, String> initialMetadata = new HashMap<String, String>();
-		initialMetadata.put("order_id", "6735");
+		initialMetadata.put("order_id", "1234");
 		chargeParam.put("metadata", initialMetadata);
 
 		// Create Payment with parameters
-		Charge.create(chargeParam);
+		Charge charge = Charge.create(chargeParam);
 
 		// Print to console
-		System.out.println("Customer Payment for id "+ cus_id +"is created!");
-		gsonPrettyPrint(customer);
+		System.out.println("Customer Payment for id "+ cusId +"is created!");
+		gsonPrettyPrint(charge);
 	}
 
-	public static void addPaymentsCardId(String cus_id, int amount, String currency, String cardId) throws StripeException {
+	/**
+	 * Add Payments
+	 *
+	 * @param cusId Customer ID
+	 * @param amount Amount
+	 * @param currency currency (nok, usd..)
+	 * @param cardId Card ID
+	 * @throws StripeException ExceptionHandling
+	 */
+	public static void addPaymentSelectCard(String cusId, String cardId, int amount, String currency) throws StripeException {
 
-		Customer customer = Customer.retrieve(cus_id);
+		Customer customer = Customer.retrieve(cusId);
 		Map<String, Object> chargeParam = new HashMap<String, Object>();
 
 		// Convert params to correct Stripe params
@@ -194,19 +203,20 @@ public class Application {
 		// Add payment parameters
 		chargeParam.put("amount", amountString); // 100 = 1.00 currency
 		chargeParam.put("currency",currencyToLower); // for cents min 50
-		chargeParam.put("source",cardId); // USING CARD ID and NOT CUSTOMER ID!
+		chargeParam.put("customer",cusId);
+		chargeParam.put("source",cardId); // Selecting card by card id
 
 		// METADATA - Order_id
 		Map<String, String> initialMetadata = new HashMap<String, String>();
-		initialMetadata.put("order_id", "6735");
+		initialMetadata.put("order_id", "1234");
 		chargeParam.put("metadata", initialMetadata);
 
 		// Create Payment with parameters
-		Charge.create(chargeParam);
+		Charge charge = Charge.create(chargeParam);
 
 		// Print to console
-		System.out.println("Customer Payment for id "+ cus_id +"is created!");
-		gsonPrettyPrint(customer);
+		System.out.println("Customer Payment for id "+ cusId +"is created!");
+		gsonPrettyPrint(charge);
 		//System.out.println("Token: ");
 		//gsonPrettyPrint(token);
 
@@ -214,11 +224,17 @@ public class Application {
 
 	/**
 	 * Use Gson to pretty-print Json
+	 *
 	 * @param obj from input
 	 */
 	public static void gsonPrettyPrint(Object obj) {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		System.out.println(gson.toJson(obj));
+	}
+
+	public static String gsonPrettyToJson(Object obj) {
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		return gson.toJson(obj);
 	}
 
 }
