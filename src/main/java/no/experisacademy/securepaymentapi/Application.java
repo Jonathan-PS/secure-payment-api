@@ -26,7 +26,7 @@ public class Application {
 
   
 	/*@Autowired
-	ProductRepository repository;*/
+	ProductRepository repository; */
 	public static void main(String[] args) throws StripeException{
 
 		// LESS SECURE: Connected account’s SECRET API KEY,
