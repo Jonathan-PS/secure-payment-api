@@ -5,9 +5,6 @@ import no.experisacademy.securepaymentapi.repositories.UserOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @CrossOrigin(origins = "*")
@@ -24,11 +21,8 @@ public class UserOrderController {
         return userOrders;
     }
 
-    @PostMapping("/orders/create")
+    @PutMapping("/orders/create")
     public String createOreder(@RequestBody UserOrder userOrder) {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        Date date = new Date();
-
 
         repository.save(new UserOrder(
                 userOrder.getUserOrderId(),
@@ -36,8 +30,7 @@ public class UserOrderController {
                 userOrder.getShippingName(),
                 userOrder.getShippingAddress(),
                 userOrder.getShippingEmail(),
-                dateFormat.format(date),
-                date,
+                userOrder.getStripeTransactionId(),
                 "in progress",
                 true));
 

@@ -33,8 +33,8 @@ public class UserOrder implements Serializable {
     @Column(name = "status")
     private String status;
 
-    /*@Column(name = "stripe_transaction_id")
-    private long stripeTransactionId;*/
+    @Column(name = "stripe_transaction_id")
+    private long stripeTransactionId;
 
     @Column(name = "is_active")
     private boolean isActive;
@@ -43,14 +43,13 @@ public class UserOrder implements Serializable {
 
     }
 
-    public UserOrder(long userOrderId, long registeredUserId, String shippingName, String shippingAddress, String shippingEmail, String createdAt, Date updatedAt, String status, boolean isActive) {
+    public UserOrder(long userOrderId, long registeredUserId, String shippingName, String shippingAddress, String shippingEmail, Long stripeTransactionId,String status, boolean isActive) {
         this.userOrderId = userOrderId;
         this.registeredUserId = registeredUserId;
         this.shippingName = shippingName;
         this.shippingAddress = shippingAddress;
         this.shippingEmail = shippingEmail;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.stripeTransactionId = stripeTransactionId;
         this.status = status;
         this.isActive = isActive;
     }
@@ -125,5 +124,13 @@ public class UserOrder implements Serializable {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public long getStripeTransactionId() {
+        return stripeTransactionId;
+    }
+
+    public void setStripeTransactionId(long stripeTransactionId) {
+        this.stripeTransactionId = stripeTransactionId;
     }
 }
