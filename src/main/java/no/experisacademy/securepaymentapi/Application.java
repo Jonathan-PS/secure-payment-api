@@ -30,7 +30,7 @@ public class Application {
 	public static void main(String[] args) throws StripeException{
 
 		// LESS SECURE: Connected account’s SECRET API KEY,
-		// MORE SECURE: Stripe-Account header and the connected account’s ID
+		// MORE SECURE: StripePayment-Account header and the connected account’s ID
 		Stripe.apiKey=secretApiKey;
 
 
@@ -75,7 +75,7 @@ public class Application {
 	}
 
 	/**
-	 * Create a Stripe customer
+	 * Create a StripePayment customer
 	 *
 	 * @param email from input
 	 * @throws StripeException ExceptionHandling
@@ -157,7 +157,7 @@ public class Application {
 		Customer customer = Customer.retrieve(cusId);
 		Map<String, Object> chargeParam = new HashMap<String, Object>();
 
-		// Convert params to correct Stripe params
+		// Convert params to correct StripePayment params
 		String amountString = Integer.toString(amount);
 		String currencyToLower = currency.toLowerCase();
 
@@ -167,7 +167,7 @@ public class Application {
 		chargeParam.put("description", description);
 		chargeParam.put("customer",customer.getId()); // Using Customer ID (and get default card!)
 		//chargeParam.put("source", "tok_mastercard");
-		// ^ obtained with Stripe.js
+		// ^ obtained with StripePayment.js
 
 		// METADATA - Order_id
 		Map<String, String> initialMetadata = new HashMap<String, String>();
@@ -196,7 +196,7 @@ public class Application {
 		Customer customer = Customer.retrieve(cusId);
 		Map<String, Object> chargeParam = new HashMap<String, Object>();
 
-		// Convert params to correct Stripe params
+		// Convert params to correct StripePayment params
 		String amountString = Integer.toString(amount);
 		String currencyToLower = currency.toLowerCase();
 

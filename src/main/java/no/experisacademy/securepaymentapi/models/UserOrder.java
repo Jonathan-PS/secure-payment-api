@@ -1,18 +1,19 @@
 package no.experisacademy.securepaymentapi.models;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "UserOrder")
-public class UserOrder {
+public class UserOrder implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_order_id")
-    private long userOrderId;
+    @Column(columnDefinition = "serial")
+    private Long userOrderId;
 
-    @Column(name = "registered_user_id") // FOREIGN KEY
-    private long registeredUserId;
+    @Column(name = "registered_user_id")
+    private Long registeredUserId;
 
     @Column(name = "shipping_name")
     private String shippingName;
@@ -24,7 +25,7 @@ public class UserOrder {
     private String shippingEmail;
 
     @Column(name = "created_at")
-    private String createdAt;
+    private Date createdAt;
 
     @Column(name = "updated_at")
     private Date updatedAt;
@@ -32,8 +33,8 @@ public class UserOrder {
     @Column(name = "status")
     private String status;
 
-    /*@Column(name = "stripe_transaction_id")
-    private long stripeTransactionId;*/
+    @Column(name = "stripe_transaction_id")
+    private Long stripeTransactionId;
 
     @Column(name = "is_active")
     private boolean isActive;
@@ -42,31 +43,40 @@ public class UserOrder {
 
     }
 
-    public UserOrder(long userOrderId, long registeredUserId, String shippingName, String shippingAddress, String shippingEmail, String createdAt, Date updatedAt, String status, boolean isActive) {
-        this.userOrderId = userOrderId;
-        this.registeredUserId = registeredUserId;
+    public UserOrder(String shippingName, String shippingAddress, String shippingEmail, Date createdAt, Date updatedAt, String status, Long stripeTransactionId, boolean isActive) {
         this.shippingName = shippingName;
         this.shippingAddress = shippingAddress;
         this.shippingEmail = shippingEmail;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.status = status;
+        this.stripeTransactionId = stripeTransactionId;
         this.isActive = isActive;
     }
 
-    public long getUserOrderId() {
+    public UserOrder(long userOrderId, Long registeredUserId, String shippingName, String shippingAddress, String shippingEmail, String status, boolean isActive) {
+        this.userOrderId = userOrderId;
+        this.registeredUserId = registeredUserId;
+        this.shippingName = shippingName;
+        this.shippingAddress = shippingAddress;
+        this.shippingEmail = shippingEmail;
+        this.status = status;
+        this.isActive = isActive;
+    }
+
+    public Long getUserOrderId() {
         return userOrderId;
     }
 
-    public void setUserOrderId(long userOrderId) {
+    public void setUserOrderId(Long userOrderId) {
         this.userOrderId = userOrderId;
     }
 
-    public long getRegisteredUserId() {
+    public Long getRegisteredUserId() {
         return registeredUserId;
     }
 
-    public void setRegisteredUserId(long registeredUserId) {
+    public void setRegisteredUserId(Long registeredUserId) {
         this.registeredUserId = registeredUserId;
     }
 
@@ -94,11 +104,11 @@ public class UserOrder {
         this.shippingEmail = shippingEmail;
     }
 
-    public String getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -116,6 +126,14 @@ public class UserOrder {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Long getStripeTransactionId() {
+        return stripeTransactionId;
+    }
+
+    public void setStripeTransactionId(Long stripeTransactionId) {
+        this.stripeTransactionId = stripeTransactionId;
     }
 
     public boolean isActive() {

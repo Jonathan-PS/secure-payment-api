@@ -4,13 +4,13 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "Product")
+@Table(name = "product")
 public class Product implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_id")
-    private long productId;
+    @Column(columnDefinition = "serial")
+    private Long productId;
 
     @Column(name = "product_name")
     private String productName;
@@ -19,10 +19,10 @@ public class Product implements Serializable {
     private String description;
 
     @Column(name = "price_each")
-    private double priceEach;
+    private Double priceEach;
 
-    @Column(name = "quantity")
-    private int quantity;
+    @Column(name = "stock")
+    private Integer stock;
 
     @Column(name = "image_url")
     private String imageUrl;
@@ -34,21 +34,21 @@ public class Product implements Serializable {
 
     }
 
-    public Product(Long productId, String productName, String description, double priceEach, int quantity, String imageUrl, Boolean isActive) {
+    public Product(Long productId, String productName, String description, Double priceEach, Integer stock, String imageUrl, Boolean isActive) {
         this.productId = productId;
         this.productName = productName;
         this.description = description;
         this.priceEach = priceEach;
-        this.quantity = quantity;
+        this.stock = stock;
         this.imageUrl = imageUrl;
         this.isActive = isActive;
     }
 
-    public long getProductId() {
+    public Long getProductId() {
         return productId;
     }
 
-    public void setProductId(long productId) {
+    public void setProductId(Long productId) {
         this.productId = productId;
     }
 
@@ -68,20 +68,20 @@ public class Product implements Serializable {
         this.description = description;
     }
 
-    public double getPriceEach() {
+    public Double getPriceEach() {
         return priceEach;
     }
 
-    public void setPriceEach(double priceEach) {
+    public void setPriceEach(Double priceEach) {
         this.priceEach = priceEach;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public Integer getStock() {
+        return stock;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setStock(Integer stock) {
+        this.stock = stock;
     }
 
     public String getImageUrl() {
@@ -92,11 +92,11 @@ public class Product implements Serializable {
         this.imageUrl = imageUrl;
     }
 
-    public Boolean getActive() {
+    public boolean isActive() {
         return isActive;
     }
 
-    public void setActive(Boolean active) {
+    public void setActive(boolean active) {
         isActive = active;
     }
 }

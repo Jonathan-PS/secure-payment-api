@@ -4,16 +4,16 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "Address")
+@Table(name = "address")
 public class Address implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @JoinColumn(name = "address_id")
-    private long addressId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "serial")
+    private Long addressId;
 
     @Column(name = "registered_user_id")
-    private int registeredUserId;
+    private Integer registeredUserId;
 
     @Column(name = "street_name")
     private String streetName;
@@ -28,7 +28,7 @@ public class Address implements Serializable {
     private String city;
 
     @Column(name = "postal_code")
-    private int postalCode;
+    private Integer postalCode;
 
     @Column(name = "country")
     private String country;
@@ -39,7 +39,7 @@ public class Address implements Serializable {
     public Address() {
     }
 
-    public Address(int registeredUserId, String streetName, String streetNumber, String housingCode, String city, int postalCode, String country, Boolean isActive) {
+    public Address(Integer registeredUserId, String streetName, String streetNumber, String housingCode, String city, Integer postalCode, String country, Boolean isActive) {
         this.registeredUserId = registeredUserId;
         this.streetName = streetName;
         this.streetNumber = streetNumber;
@@ -50,23 +50,27 @@ public class Address implements Serializable {
         this.isActive = isActive;
     }
 
-    public long getAddressId() {
+    public Long getAddressId() {
         return addressId;
     }
 
-    public int getRegisterdUserId() {
+    public void setAddressId(Long addressId) {
+        this.addressId = addressId;
+    }
+
+    public Integer getRegisteredUserId() {
         return registeredUserId;
     }
 
-    public void setRegisteredUserId() {
+    public void setRegisteredUserId(Integer registeredUserId) {
         this.registeredUserId = registeredUserId;
     }
 
     public String getStreetName() {
-        return  streetName;
+        return streetName;
     }
 
-    public void setStreetName() {
+    public void setStreetName(String streetName) {
         this.streetName = streetName;
     }
 
@@ -74,7 +78,7 @@ public class Address implements Serializable {
         return streetNumber;
     }
 
-    public void setStreetNumber() {
+    public void setStreetNumber(String streetNumber) {
         this.streetNumber = streetNumber;
     }
 
@@ -82,7 +86,7 @@ public class Address implements Serializable {
         return housingCode;
     }
 
-    public void setHousingCode() {
+    public void setHousingCode(String housingCode) {
         this.housingCode = housingCode;
     }
 
@@ -94,11 +98,11 @@ public class Address implements Serializable {
         this.city = city;
     }
 
-    public int getPostalCode() {
+    public Integer getPostalCode() {
         return postalCode;
     }
 
-    public void setPostalCode() {
+    public void setPostalCode(Integer postalCode) {
         this.postalCode = postalCode;
     }
 
@@ -106,7 +110,7 @@ public class Address implements Serializable {
         return country;
     }
 
-    public void setCountry() {
+    public void setCountry(String country) {
         this.country = country;
     }
 
@@ -114,7 +118,7 @@ public class Address implements Serializable {
         return isActive;
     }
 
-    public void setActive() {
-        this.isActive = isActive;
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 }
