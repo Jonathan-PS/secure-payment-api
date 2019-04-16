@@ -13,7 +13,7 @@ public class UserOrder implements Serializable {
     private long userOrderId;
 
     @Column(name = "registered_user_id")
-    private long registeredUserId;
+    private Long registeredUserId;
 
     @Column(name = "shipping_name")
     private String shippingName;
@@ -43,7 +43,7 @@ public class UserOrder implements Serializable {
 
     }
 
-    public UserOrder(String shippingName, String shippingAddress, String shippingEmail, Date createdAt, Date updatedAt, String status, long stripeTransactionId, boolean isActive) {
+    public UserOrder(String shippingName, String shippingAddress, String shippingEmail, Date createdAt, Date updatedAt, String status, Long stripeTransactionId, boolean isActive) {
         this.shippingName = shippingName;
         this.shippingAddress = shippingAddress;
         this.shippingEmail = shippingEmail;
@@ -54,7 +54,7 @@ public class UserOrder implements Serializable {
         this.isActive = isActive;
     }
 
-    public UserOrder(long userOrderId, long registeredUserId, String shippingName, String shippingAddress, String shippingEmail, String status, boolean isActive) {
+    public UserOrder(long userOrderId, Long registeredUserId, String shippingName, String shippingAddress, String shippingEmail, String status, boolean isActive) {
         this.userOrderId = userOrderId;
         this.registeredUserId = registeredUserId;
         this.shippingName = shippingName;
@@ -72,11 +72,11 @@ public class UserOrder implements Serializable {
         this.userOrderId = userOrderId;
     }
 
-    public long getRegisteredUserId() {
+    public Long getRegisteredUserId() {
         return registeredUserId;
     }
 
-    public void setRegisteredUserId(long registeredUserId) {
+    public void setRegisteredUserId(Long registeredUserId) {
         this.registeredUserId = registeredUserId;
     }
 
@@ -128,7 +128,7 @@ public class UserOrder implements Serializable {
         this.status = status;
     }
 
-    public long getStripeTransactionId() {
+    public Long getStripeTransactionId() {
         return stripeTransactionId;
     }
 
