@@ -9,7 +9,7 @@ import java.util.Date;
 public class UserOrder implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_order_id")
+    @Column(columnDefinition = "serial")
     private long userOrderId;
 
     @Column(name = "registered_user_id")
@@ -25,7 +25,7 @@ public class UserOrder implements Serializable {
     private String shippingEmail;
 
     @Column(name = "created_at")
-    private String createdAt;
+    private Date createdAt;
 
     @Column(name = "updated_at")
     private Date updatedAt;
@@ -42,6 +42,8 @@ public class UserOrder implements Serializable {
     public UserOrder(){
 
     }
+
+
 
     public UserOrder(long userOrderId, long registeredUserId, String shippingName, String shippingAddress, String shippingEmail,String status, boolean isActive) {
         this.userOrderId = userOrderId;
@@ -93,11 +95,11 @@ public class UserOrder implements Serializable {
         this.shippingEmail = shippingEmail;
     }
 
-    public String getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 

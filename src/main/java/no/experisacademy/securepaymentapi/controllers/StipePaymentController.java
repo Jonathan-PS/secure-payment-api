@@ -23,7 +23,7 @@ public class StipePaymentController {
 
     @PutMapping("/stripe/payment")
     public String create(@RequestBody StripePayment stripePayment){
-        repository.save(new StripePayment(stripePayment.getStripeTransactionId(), stripePayment.getTokenId(), stripePayment.getEmail(), stripePayment.getAmount(), stripePayment.getCurrency()));
+        repository.save(new StripePayment(stripePayment.getStripeTransactionId(), stripePayment.getToken(), stripePayment.getEmail(), stripePayment.getAmount(), stripePayment.getCurrency()));
 
         return "Stripe payment has been created";
     }
