@@ -128,19 +128,19 @@ public class UserOrder implements Serializable {
         this.status = status;
     }
 
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
-    }
-
     public long getStripeTransactionId() {
         return stripeTransactionId;
     }
 
     public void setStripeTransactionId(long stripeTransactionId) {
         this.stripeTransactionId = stripeTransactionId;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }
