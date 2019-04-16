@@ -132,7 +132,7 @@ public class UserOrder implements Serializable {
         return stripeTransactionId;
     }
 
-    public void setStripeTransactionId(long stripeTransactionId) {
+    public void setStripeTransactionId(Long stripeTransactionId) {
         this.stripeTransactionId = stripeTransactionId;
     }
 
