@@ -10,7 +10,7 @@ public class StripePayment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "stripe_transaction_id")
-    private long stripeTransactionId;
+    private Long stripeTransactionId;
 
     @Column(name = "token")
     private String token;
@@ -22,7 +22,7 @@ public class StripePayment implements Serializable {
     private String privateKey;*/
 
     @Column(name= "amount")
-    private double amount;
+    private Double amount;
 
     @Column(name = "currency")
     private String currency;
@@ -38,11 +38,11 @@ public class StripePayment implements Serializable {
         this.currency = currency;
     }
 
-    public long getStripeTransactionId() {
+    public Long getStripeTransactionId() {
         return stripeTransactionId;
     }
 
-    public void setStripeTransactionId(long stripeTransactionId) {
+    public void setStripeTransactionId(Long stripeTransactionId) {
         this.stripeTransactionId = stripeTransactionId;
     }
 
@@ -62,11 +62,11 @@ public class StripePayment implements Serializable {
         this.email = email;
     }
 
-    public double getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 

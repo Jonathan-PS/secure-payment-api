@@ -10,7 +10,7 @@ public class UserOrder implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "serial")
-    private long userOrderId;
+    private Long userOrderId;
 
     @Column(name = "registered_user_id")
     private Long registeredUserId;
@@ -64,11 +64,11 @@ public class UserOrder implements Serializable {
         this.isActive = isActive;
     }
 
-    public long getUserOrderId() {
+    public Long getUserOrderId() {
         return userOrderId;
     }
 
-    public void setUserOrderId(long userOrderId) {
+    public void setUserOrderId(Long userOrderId) {
         this.userOrderId = userOrderId;
     }
 

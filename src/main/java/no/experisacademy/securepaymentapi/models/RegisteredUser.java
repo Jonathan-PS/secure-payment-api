@@ -11,7 +11,7 @@ public class RegisteredUser implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(columnDefinition = "serial")
-  private long registeredUserId;
+  private Long registeredUserId;
 
   @Column(name = "first_name")
   private String firstName;
@@ -47,11 +47,11 @@ public class RegisteredUser implements Serializable {
     this.isActive = isActive;
   }
 
-  public long getRegistedUserId() {
+  public Long getRegisteredUserId() {
     return registeredUserId;
   }
 
-  public void setUserId(long id) {
+  public void setRegisteredUserId(Long registeredUserId) {
     this.registeredUserId = registeredUserId;
   }
 
@@ -59,7 +59,7 @@ public class RegisteredUser implements Serializable {
     return firstName;
   }
 
-  public void setFirstName() {
+  public void setFirstName(String firstName) {
     this.firstName = firstName;
   }
 
@@ -67,19 +67,15 @@ public class RegisteredUser implements Serializable {
     return lastName;
   }
 
-  public void setLastName() {
+  public void setLastName(String lastName) {
     this.lastName = lastName;
-  }
-
-  public String getFullName() {
-    return firstName + " " + lastName; // Bedre med getFirstName() + " " getLastName() ?
   }
 
   public String getPassword() {
     return password;
   }
 
-  public void setPassword() {
+  public void setPassword(String password) {
     this.password = password;
   }
 
@@ -87,7 +83,7 @@ public class RegisteredUser implements Serializable {
     return email;
   }
 
-  public void setEmail() {
+  public void setEmail(String email) {
     this.email = email;
   }
 
@@ -95,15 +91,15 @@ public class RegisteredUser implements Serializable {
     return createdAt;
   }
 
-  public void setCreatedAt() {
+  public void setCreatedAt(Date createdAt) {
     this.createdAt = createdAt;
   }
 
-  public Boolean getIsActive() {
+  public Boolean getActive() {
     return isActive;
   }
 
-  public void setIsActive() {
-    this.isActive = isActive;
+  public void setActive(Boolean active) {
+    isActive = active;
   }
 }
