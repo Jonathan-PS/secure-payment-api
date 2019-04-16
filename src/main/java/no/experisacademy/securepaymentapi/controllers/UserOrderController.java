@@ -30,7 +30,6 @@ public class UserOrderController {
                 userOrder.getShippingName(),
                 userOrder.getShippingAddress(),
                 userOrder.getShippingEmail(),
-                userOrder.getStripeTransactionId(),
                 "in progress",
                 true));
 

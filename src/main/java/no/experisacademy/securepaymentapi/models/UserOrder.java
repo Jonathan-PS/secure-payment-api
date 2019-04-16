@@ -12,7 +12,7 @@ public class UserOrder implements Serializable {
     @Column(name = "user_order_id")
     private long userOrderId;
 
-    @Column(name = "registered_user_id") // FOREIGN KEY
+    @Column(name = "registered_user_id")
     private long registeredUserId;
 
     @Column(name = "shipping_name")
@@ -43,13 +43,12 @@ public class UserOrder implements Serializable {
 
     }
 
-    public UserOrder(long userOrderId, long registeredUserId, String shippingName, String shippingAddress, String shippingEmail, Long stripeTransactionId,String status, boolean isActive) {
+    public UserOrder(long userOrderId, long registeredUserId, String shippingName, String shippingAddress, String shippingEmail,String status, boolean isActive) {
         this.userOrderId = userOrderId;
         this.registeredUserId = registeredUserId;
         this.shippingName = shippingName;
         this.shippingAddress = shippingAddress;
         this.shippingEmail = shippingEmail;
-        this.stripeTransactionId = stripeTransactionId;
         this.status = status;
         this.isActive = isActive;
     }
