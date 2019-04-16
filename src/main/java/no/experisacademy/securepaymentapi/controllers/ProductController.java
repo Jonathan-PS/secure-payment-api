@@ -45,7 +45,7 @@ public class ProductController {
 
     @PostMapping("/products/create")
     public String create(@RequestBody Product product){
-        repository.save(new Product(product.getProductId(), product.getProductName(), product.getDescription(), product.getPriceEach(), product.getQuantity(), product.getImageUrl(), true));
+        repository.save(new Product(product.getProductId(), product.getProductName(), product.getDescription(), product.getPriceEach(), product.getStock(), product.getImageUrl(), true));
 
         return "Product is created";
     }

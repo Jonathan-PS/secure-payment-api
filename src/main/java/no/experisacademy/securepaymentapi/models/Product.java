@@ -21,8 +21,8 @@ public class Product implements Serializable {
     @Column(name = "price_each")
     private double priceEach;
 
-    @Column(name = "quantity")
-    private int quantity;
+    @Column(name = "stock")
+    private int stock;
 
     @Column(name = "image_url")
     private String imageUrl;
@@ -34,12 +34,12 @@ public class Product implements Serializable {
 
     }
 
-    public Product(Long productId, String productName, String description, double priceEach, int quantity, String imageUrl, Boolean isActive) {
+    public Product(Long productId, String productName, String description, double priceEach, int stock, String imageUrl, Boolean isActive) {
         this.productId = productId;
         this.productName = productName;
         this.description = description;
         this.priceEach = priceEach;
-        this.quantity = quantity;
+        this.stock = stock;
         this.imageUrl = imageUrl;
         this.isActive = isActive;
     }
@@ -76,12 +76,12 @@ public class Product implements Serializable {
         this.priceEach = priceEach;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public int getStock() {
+        return stock;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 
     public String getImageUrl() {

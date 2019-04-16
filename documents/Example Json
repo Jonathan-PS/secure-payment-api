@@ -12,6 +12,6 @@ POST: /createProduct
   "productName": "Blue Socks",
   "description": "Nice pair of blue socks",
   "priceEach": 79.00,
-  "quantity": 4,
+  "stock": 4,
   "imageURL": "http://clipart-library.com/img/872418.png"
 }
