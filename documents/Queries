@@ -1,11 +1,60 @@
-CREATE TABLE Product(
-    product_id bigint NOT NULL,
-    product_name character varying(255),
-    description character varying(255),
-    price_each double precision,
-    quantity integer,
+-- --------------------------------------------------------
+
+--
+-- Table structure for table product
+--
+
+
+CREATE TABLE product(
+    product_id SERIAL PRIMARY KEY,
+    product_name varchar(255) NOT NULL,
+    description varchar(255) NOT NULL,
+    price_each double precision NOT NULL,
+    quantity int NOT NULL,
     image_url character varying(255),
-    is_active boolean,
-    constraint product_pkey PRIMARY KEY (product_id)
+    is_active boolean NOT NULL
 );
 
+select * from product;
+
+DROP TABLE product;
+
+INSERT INTO product (product_name, description, price_each, quantity, image_url, is_active)
+VALUES ('Red Socks', 'Nice pair of red socks', 79.99, 10, 'http://sweetclipart.com/multisite/sweetclipart/files/socks_red.png', true),
+('White Socks', 'White socks not gonna stay white for long', 79.99, 25, 'http://sweetclipart.com/multisite/sweetclipart/files/socks_outline.png', true),
+('Blue Baby Socks', 'Nice pair of blue socks for baby boy', 49.50, 25, 'http://sweetclipart.com/multisite/sweetclipart/files/baby_boy_socks_blue.png', true),
+('Yellow Baby Socks', 'Nice pair of yellow socks', 49.50, 25, 'http://sweetclipart.com/multisite/sweetclipart/files/baby_socks_yellow.png', true),
+('Pink Baby Socks', 'Nice pair of pink socks for baby girl', 49.50, 25, 'http://sweetclipart.com/multisite/sweetclipart/files/baby_girl_socks_pink.png', true),
+('Phintastic Socks', 'The socks to impress all the girls', 249.50, 88, 'https://cdn.shopify.com/s/files/1/0002/4179/5099/products/Phintastic_hero_copy_7_2048x.png?v=1526476988', true);
+
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table registered_user
+--
+
+
+
+
+
+-- --------------------------------------------------------
+
+
+
+*Example*CREATE TABLE characters (
+  character_id SERIAL PRIMARY KEY,
+  user_id int NOT NULL,
+  character_name varchar(20) NOT NULL,
+  class_name varchar(20) NOT NULL,
+  level int NOT NULL,
+  FOREIGN KEY (character_id) REFERENCES characters(character_id),
+  FOREIGN KEY (class_name) REFERENCES classes(class_name)
+);
+
+
+*Example*    @Id
+             @GeneratedValue(strategy = GenerationType.IDENTITY)
+             @Column(columnDefinition = "serial")
+             private int characterId;
