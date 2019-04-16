@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
-public class StipePaymentController {
+public class StripePaymentController {
 
     @Autowired
     StripePaymentRepository repository;
