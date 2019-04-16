@@ -4,12 +4,12 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "Address")
+@Table(name = "address")
 public class Address implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @JoinColumn(name = "address_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "serial")
     private long addressId;
 
     @Column(name = "registered_user_id")
