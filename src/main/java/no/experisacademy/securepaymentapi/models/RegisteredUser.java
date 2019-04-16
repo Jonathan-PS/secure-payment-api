@@ -28,9 +28,6 @@ public class RegisteredUser implements Serializable {
   @Column(name = "created_at")
   private Date createdAt;
 
-  @Column(name = "active_address_id")
-  private int activeAddressId;
-
   @Column(name = "is_active")
   private Boolean isActive;
 
@@ -42,12 +39,11 @@ public class RegisteredUser implements Serializable {
     this.email = email;
   }
 
-  public RegisteredUser(String firstName, String lastName, String password, String email, int activeAddressId, Boolean isActive) {
+  public RegisteredUser(String firstName, String lastName, String password, String email, Boolean isActive) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.password = password;
     this.email = email;
-    this.activeAddressId = activeAddressId;
     this.isActive = isActive;
   }
 
@@ -101,14 +97,6 @@ public class RegisteredUser implements Serializable {
 
   public void setCreatedAt() {
     this.createdAt = createdAt;
-  }
-
-  public int getActiveAddressId() {
-    return activeAddressId;
-  }
-
-  public void setActiveAddressId() {
-    this.activeAddressId = activeAddressId;
   }
 
   public Boolean getIsActive() {
