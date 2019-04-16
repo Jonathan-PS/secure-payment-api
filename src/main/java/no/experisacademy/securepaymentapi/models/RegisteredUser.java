@@ -5,12 +5,12 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "RegisteredUser")
+@Table(name = "Registered_user")
 public class RegisteredUser implements Serializable {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  @Column(name = "registered_user_id")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(columnDefinition = "serial")
   private long registeredUserId;
 
   @Column(name = "first_name")
