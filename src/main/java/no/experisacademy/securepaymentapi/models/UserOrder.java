@@ -34,7 +34,7 @@ public class UserOrder implements Serializable {
     private String status;
 
     @Column(name = "stripe_transaction_id")
-    private long stripeTransactionId;
+    private Long stripeTransactionId;
 
     @Column(name = "is_active")
     private boolean isActive;
