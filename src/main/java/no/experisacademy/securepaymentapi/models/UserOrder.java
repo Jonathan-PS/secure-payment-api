@@ -43,9 +43,18 @@ public class UserOrder implements Serializable {
 
     }
 
+    public UserOrder(String shippingName, String shippingAddress, String shippingEmail, Date createdAt, Date updatedAt, String status, long stripeTransactionId, boolean isActive) {
+        this.shippingName = shippingName;
+        this.shippingAddress = shippingAddress;
+        this.shippingEmail = shippingEmail;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.status = status;
+        this.stripeTransactionId = stripeTransactionId;
+        this.isActive = isActive;
+    }
 
-
-    public UserOrder(long userOrderId, long registeredUserId, String shippingName, String shippingAddress, String shippingEmail,String status, boolean isActive) {
+    public UserOrder(long userOrderId, long registeredUserId, String shippingName, String shippingAddress, String shippingEmail, String status, boolean isActive) {
         this.userOrderId = userOrderId;
         this.registeredUserId = registeredUserId;
         this.shippingName = shippingName;
