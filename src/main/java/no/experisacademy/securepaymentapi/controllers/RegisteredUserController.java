@@ -39,7 +39,7 @@ public class RegisteredUserController {
   /* Method for creating a new user */
   @PutMapping("/users/create")
   public String create(@RequestBody RegisteredUser registeredUser) {
-    repository.save(new RegisteredUser(registeredUser.getFirstName(), registeredUser.getLastName(), registeredUser.getPassword(), registeredUser.getEmail(), registeredUser.getActiveAddressId(), true));
+    repository.save(new RegisteredUser(registeredUser.getFirstName(), registeredUser.getLastName(), registeredUser.getPassword(), registeredUser.getEmail(), true));
 
       return "New user is created";
   }
