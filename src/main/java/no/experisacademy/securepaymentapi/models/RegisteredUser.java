@@ -39,11 +39,12 @@ public class RegisteredUser implements Serializable {
     this.email = email;
   }
 
-  public RegisteredUser(String firstName, String lastName, String password, String email, Boolean isActive) {
+  public RegisteredUser(String firstName, String lastName, String password, String email, Date createdAt, Boolean isActive) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.password = password;
     this.email = email;
+    this.createdAt = createdAt;
     this.isActive = isActive;
   }
 
