@@ -43,7 +43,7 @@ CREATE TABLE registered_user
     registered_user_id SERIAL PRIMARY KEY,
     first_name varchar(255) NOT NULL,
     last_name varchar(255) NOT NULL,
-        email varchar(255) UNIQUE NOT NULL,
+    email varchar(255) UNIQUE NOT NULL,
     password varchar(255) NOT NULL,
     created_at timestamptz NOT NULL,
     is_active boolean NOT NULL
@@ -55,6 +55,7 @@ SELECT * FROM registered_user;
 INSERT INTO registered_user (email, first_name, last_name, password, created_at, is_active)
 VALUES
 ('ola@nordmann.com', 'Ola', 'Nordmann', 'askeladden', NOW(), true),
+('kari@nordmann.com', 'Kari', 'Nordmann', 'pippilangstrompe', NOW(), true),
 ('jon.snow@stark.com', 'Jon', 'Snow', 'daenerys', NOW(), true),
 ('dani@targaryen.com', 'Daenerys', 'Targaryen', 'auntieknowsbest', NOW(), true),
 ('thehound@clegane.got', 'Sandor', 'Clegane', 'fucktheking', NOW(), true),
@@ -100,8 +101,7 @@ VALUES
 -- Foreign key restraint at work:
 INSERT INTO address (street_name, street_number, housing_code, postal_code, city, country, is_active, registered_user_id)
 VALUES
-('Pyke',          '1a', null,  8123, 'Pyke', 'Iron Islands', true, 10001)
-;
+('Pyke',          '1a', null,  8123, 'Pyke', 'Iron Islands', true, 10001);
 
 select * from address;
 
@@ -148,7 +148,6 @@ CREATE TABLE user_order
     shipping_name varchar(255) NOT NULL,
     created_at timestamptz NOT NULL,
     updated_at timestamptz NOT NULL,
-
     status varchar(255) NOT NULL,
     registered_user_id bigint REFERENCES registered_user(registered_user_id),
     stripe_transaction_id bigint UNIQUE REFERENCES stripe_transaction(stripe_transaction_id),
@@ -187,7 +186,9 @@ CREATE TABLE order_product
     product_id bigint NOT NULL references product(product_id),
     price_each double precision NOT NULL,
     quantity bigint NOT NULL,
-    is_active boolean NOT NULL
+    is_active boolean NOT NULL,
+    unique (user_order_id, product_id) -- so that an order takes a give product only once. Duplicates are stored as quantity changes
+
 );
 
 select * from order_product;
