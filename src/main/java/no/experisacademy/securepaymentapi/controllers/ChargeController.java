@@ -29,7 +29,7 @@ public class ChargeController {
 
 
     @PostMapping("/stripe/charge")
-    public String charge(@RequestBody ChargeRequest chargeRequest, Model model)
+    public Charge charge(@RequestBody ChargeRequest chargeRequest, Model model)
             throws StripeException {
         //gsonPrettyPrint(chargeRequest);
         //chargeRequest.setDescription("Example charge");
@@ -47,7 +47,7 @@ public class ChargeController {
         System.out.println("Customer Payment is created!");
         gsonPrettyPrint(charge);
 
-        return charge.getReceiptUrl();
+        return charge;
     }
 
     /**
