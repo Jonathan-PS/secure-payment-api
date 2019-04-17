@@ -49,6 +49,8 @@ public class Application {
 		// ADD PAYMENT (FOR CUSTOMER ID)
 		//addPaymentDefaultCard("cus_ErjwhB11tYVZGH", 2000, "nok");
 		//addPaymentSelectCard("cus_ErjwhB11tYVZGH","card_1EOAxYDNGKvGPvcfQVmRK9J0", 3000, "nok", "tok_visa");
+		//public static void addPaymentFromCard(String cardId, int amount, String currency) throws StripeException {
+		//addPaymentWithToken("tok_1EQ9wgDNGKvGPvcfLG7pT8CL", 500, "NOK");
 
 		// RUN SPRING APPLICATION
 		SpringApplication.run(Application.class, args);
@@ -216,6 +218,38 @@ public class Application {
 
 		// Print to console
 		System.out.println("Customer Payment for id "+ cusId +"is created!");
+		gsonPrettyPrint(charge);
+		//System.out.println("Token: ");
+		//gsonPrettyPrint(token);
+
+	}
+
+	public static void addPaymentWithToken(String token, int amount, String currency) throws StripeException {
+
+		//Customer customer = Customer.retrieve(cusId);
+		Map<String, Object> chargeParam = new HashMap<String, Object>();
+
+		// Convert params to correct StripePayment params
+		String amountString = Integer.toString(amount);
+		String currencyToLower = currency.toLowerCase();
+
+		// Add payment parameters
+		//chargeParam.put("email", email); // 100 = 1.00 currency
+		chargeParam.put("amount", amountString); // 100 = 1.00 currency
+		chargeParam.put("currency",currencyToLower); // for cents min 50
+		//chargeParam.put("customer",cusId);
+		chargeParam.put("source",token); // Selecting card by card id
+
+		// METADATA - Order_id
+		Map<String, String> initialMetadata = new HashMap<String, String>();
+		initialMetadata.put("order_id", "1234");
+		chargeParam.put("metadata", initialMetadata);
+
+		// Create Payment with parameters
+		Charge charge = Charge.create(chargeParam);
+
+		// Print to console
+		System.out.println("Customer Payment is created with token: " + token);
 		gsonPrettyPrint(charge);
 		//System.out.println("Token: ");
 		//gsonPrettyPrint(token);
