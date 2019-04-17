@@ -33,7 +33,7 @@ public class StripeService {
         chargeParams.put("currency", chargeRequest.getCurrency());
         //chargeParams.put("email", chargeRequest.getStripeEmail());
         //chargeParams.put("description", chargeRequest.getDescription());
-        chargeParams.put("source", chargeRequest.getStripeToken());
+        chargeParams.put("source", chargeRequest.getToken());
         return Charge.create(chargeParams);
     }
 }
