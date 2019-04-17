@@ -14,38 +14,23 @@ public class ChargeRequest {
     private int amount;
     private Currency currency;
     private String stripeEmail;
-    private String stripeToken;
+    private String token;
 
     public ChargeRequest() {
     }
 
 
-
-    public ChargeRequest(int amount, Currency currency, String stripeToken) {
+    public ChargeRequest(int amount, Currency currency, String token) {
         this.amount = amount;
         this.currency = currency;
-        this.stripeToken = stripeToken;
+        this.token = token;
     }
-
-    public ChargeRequest(int amount, String stripeEmail, String stripeToken) {
-        this.amount = amount;
-        this.stripeEmail = stripeEmail;
-        this.stripeToken = stripeToken;
-    }
-
-    public ChargeRequest(int amount, Currency currency, String stripeEmail, String stripeToken) {
-        this.amount = amount;
-        this.currency = currency;
-        this.stripeEmail = stripeEmail;
-        this.stripeToken = stripeToken;
-    }
-
-    public ChargeRequest(String description, int amount, Currency currency, String stripeEmail, String stripeToken) {
+    public ChargeRequest(String description, int amount, Currency currency, String stripeEmail, String token) {
         this.description = description;
         this.amount = amount;
         this.currency = currency;
         this.stripeEmail = stripeEmail;
-        this.stripeToken = stripeToken;
+        this.token = token;
     }
 
     public String getDescription() {
@@ -80,11 +65,11 @@ public class ChargeRequest {
         this.stripeEmail = stripeEmail;
     }
 
-    public String getStripeToken() {
-        return stripeToken;
+    public String getToken() {
+        return token;
     }
 
-    public void setStripeToken(String stripeToken) {
-        this.stripeToken = stripeToken;
+    public void setToken(String token) {
+        this.token = token;
     }
 }

@@ -29,7 +29,7 @@ public class ChargeController {
 
 
     @PostMapping("/stripe/charge")
-    public void charge(@RequestBody ChargeRequest chargeRequest, Model model)
+    public Charge charge(@RequestBody ChargeRequest chargeRequest, Model model)
             throws StripeException {
         //gsonPrettyPrint(chargeRequest);
         //chargeRequest.setDescription("Example charge");
@@ -40,12 +40,14 @@ public class ChargeController {
         chargeParams.put("currency", chargeRequest.getCurrency());
         //chargeParams.put("customer", "");
         chargeParams.put("description", chargeRequest.getDescription());
-        chargeParams.put("source", chargeRequest.getStripeToken());
+        chargeParams.put("source", chargeRequest.getToken());
         Charge charge =  Charge.create(chargeParams);
 
         // Print to console
         System.out.println("Customer Payment is created!");
         gsonPrettyPrint(charge);
+
+        return charge;
     }
 
     /**
