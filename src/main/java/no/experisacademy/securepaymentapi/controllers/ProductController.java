@@ -31,8 +31,6 @@ public class ProductController {
             System.out.println("Product Not found");
             return null;
         }
-
-
     }
 
     /*@GetMapping("/product/{productId}")

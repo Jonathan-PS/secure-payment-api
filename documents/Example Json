@@ -1,10 +1,20 @@
-PUT: /createuser
+PUT: /users/create
 {
   "firstName": "Ola",
   "lastName": "Normann",
   "password": "Norge1234",
-  "email": "ola.normann@mail.no",
-  "getActiveAddressId": null
+  "email": "ola.normann@mail.no"
+}
+
+PUT: /addresses/create
+{
+"registeredUserId": 1,
+"streetName": "Drammensveien",
+"streetNumber": "1",
+"housingCode": "H001",
+"city": "OSLO",
+"postalCode": 123,
+"country": "Norway"
 }
 
 POST: /createProduct

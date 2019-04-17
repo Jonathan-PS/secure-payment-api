@@ -33,6 +33,13 @@ public class AddressController {
     }
   }
 
+  // LIST ALL ADDRESSES FOR A USER
+  @GetMapping("/addresses/users/{registeredUserId}")
+  public List<Address> findAddressByRegisteredUserId(@PathVariable Integer registeredUserId){
+    List<Address> userAddresses = repository.findByRegisteredUserId(registeredUserId);
+    return userAddresses;
+  }
+
   /* Creates a new address */
   @PutMapping("/addresses/create")
   public String create(@RequestBody Address address) {
