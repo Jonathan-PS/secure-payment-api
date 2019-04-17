@@ -44,16 +44,25 @@ public class RegisteredUserController {
       return "New user is created";
   }
 
+  /** Takes email and password from the client,
+   * tries to log them in,
+   * then create a Session and returns a login confirmation.
+   *
+   * @param registeredUser
+   * @param req
+   * @return
+   */
   @GetMapping("/users/login")
   public boolean login(@RequestBody RegisteredUser registeredUser, HttpServletRequest req) {
 
     try {
       List<RegisteredUser> loggedInUser = repository.login(registeredUser);
 
-      //Create session for user
-
+      //Create session for user:
       if(loggedInUser.size() > 0){
         req.getSession().setAttribute("loggedIn", true);
+
+        // return confirmation of successful login to the client
         return true;
       }
 
@@ -62,6 +71,7 @@ public class RegisteredUserController {
       System.out.println("Failed");
 
     }
+    // return confirmation of failed login to the client
     return false;
   }
 
