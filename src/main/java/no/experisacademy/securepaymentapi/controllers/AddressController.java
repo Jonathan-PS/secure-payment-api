@@ -1,4 +1,4 @@
-package no.experisacademy.securepaymentapi.controller;
+package no.experisacademy.securepaymentapi.controllers;
 
 import no.experisacademy.securepaymentapi.models.Address;
 import no.experisacademy.securepaymentapi.repositories.AddressRepository;
@@ -36,7 +36,7 @@ public class AddressController {
   /* Creates a new address */
   @PutMapping("/addresses/create")
   public String create(@RequestBody Address address) {
-    repository.save(new Address(address.getRegisterdUserId(), address.getStreetName(), address.getStreetNumber(), address.getHousingCode(), address.getCity(), address.getPostalCode(), address.getCountry(), true));
+    repository.save(new Address(address.getRegisteredUserId(), address.getStreetName(), address.getStreetNumber(), address.getHousingCode(), address.getCity(), address.getPostalCode(), address.getCountry(), true));
 
     return "New address created";
   }
