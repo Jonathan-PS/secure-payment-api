@@ -3,10 +3,7 @@ package no.experisacademy.securepaymentapi.controllers;
 import no.experisacademy.securepaymentapi.models.OrderProduct;
 import no.experisacademy.securepaymentapi.repositories.OrderProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,10 +20,24 @@ public class OrderProductController {
         return orderProductControllers;
     }
 
-    // LIST ALL ORDERPRODUCTS FOR A ORDER
+    // LIST ALL ORDERPRODUCTS FOR AN ORDER
     @GetMapping("/orderproducts/orders/{userOrderId}")
     public List<OrderProduct> findOrderProductByUserId(@PathVariable Long userOrderId){
         List<OrderProduct> orderProducts = repository.findByUserOrderId(userOrderId);
         return orderProducts;
+    }
+
+    // MISSING PUT METHOD!!
+    @PutMapping("/orderproducts/create")
+    public String create(@RequestBody OrderProduct orderProduct){
+        repository.save(new OrderProduct(
+                orderProduct.getUserOrderId(),
+                orderProduct.getProductId(),
+                orderProduct.getPriceEach(),
+                orderProduct.getQuantity(),
+                true
+                ));
+
+        return "OrderProduct created";
     }
 }

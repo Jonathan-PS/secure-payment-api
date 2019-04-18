@@ -29,6 +29,14 @@ public class OrderProduct {
     public OrderProduct() {
     }
 
+    public OrderProduct(Long userOrderId, Long productId, Double priceEach, Long quantity, boolean isActive) {
+        this.userOrderId = userOrderId;
+        this.productId = productId;
+        this.priceEach = priceEach;
+        this.quantity = quantity;
+        this.isActive = isActive;
+    }
+
     public Long getOrderProductId() {
         return orderProductId;
     }

@@ -32,7 +32,7 @@ public class StripeChargeController {
     }
 
 
-    @PostMapping("/stripe/charge")
+    @PutMapping("/stripe/charge")
     public StripeChargeRequest chargeRequest(@RequestBody StripeChargeRequest stripeChargeRequest, Model model)
             throws StripeException {
         //gsonPrettyPrint(stripeChargeRequest);
