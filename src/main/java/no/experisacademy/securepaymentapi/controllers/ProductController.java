@@ -41,7 +41,7 @@ public class ProductController {
         return product.get();
     }*/
 
-    @PostMapping("/products/create")
+    @PutMapping("/products/create")
     public String create(@RequestBody Product product){
         repository.save(new Product(product.getProductId(), product.getProductName(), product.getDescription(), product.getPriceEach(), product.getStock(), product.getImageUrl(), true));
 
