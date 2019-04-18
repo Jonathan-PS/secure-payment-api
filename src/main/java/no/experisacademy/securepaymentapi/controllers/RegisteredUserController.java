@@ -54,8 +54,8 @@ public class RegisteredUserController {
    * @param req
    * @return
    */
-  @GetMapping("/users/login")
-  public boolean login(@RequestBody RegisteredUser registeredUser, HttpServletRequest req) {
+  @PostMapping("/users/login")
+  public Long login(@RequestBody RegisteredUser registeredUser, HttpServletRequest req) {
 
     try {
       List<RegisteredUser> loggedInUser = repository.login(registeredUser);
@@ -65,7 +65,7 @@ public class RegisteredUserController {
         req.getSession().setAttribute("loggedIn", true);
 
         // return confirmation of successful login to the client
-        return true;
+        return loggedInUser.get(0).getRegisteredUserId();
       }
 
 
@@ -74,7 +74,7 @@ public class RegisteredUserController {
 
     }
     // return confirmation of failed login to the client
-    return false;
+    return -1L;
   }
 
 
