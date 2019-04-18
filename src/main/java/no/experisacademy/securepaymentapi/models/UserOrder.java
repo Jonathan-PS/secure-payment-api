@@ -21,8 +21,8 @@ public class UserOrder implements Serializable {
     @Column(name = "shipping_address")
     private String shippingAddress;
 
-    @Column(name = "shipping_email")
-    private String shippingEmail;
+    @Column(name = "order_email")
+    private String orderEmail;
 
     @Column(name = "created_at")
     private Date createdAt;
@@ -33,9 +33,6 @@ public class UserOrder implements Serializable {
     @Column(name = "status")
     private String status;
 
-    @Column(name = "stripe_transaction_id")
-    private Long stripeTransactionId;
-
     @Column(name = "is_active")
     private boolean isActive;
 
@@ -43,23 +40,22 @@ public class UserOrder implements Serializable {
 
     }
 
-    public UserOrder(String shippingName, String shippingAddress, String shippingEmail, Date createdAt, Date updatedAt, String status, Long stripeTransactionId, boolean isActive) {
+    public UserOrder(String shippingName, String shippingAddress, String orderEmail, Date createdAt, Date updatedAt, String status, boolean isActive) {
         this.shippingName = shippingName;
         this.shippingAddress = shippingAddress;
-        this.shippingEmail = shippingEmail;
+        this.orderEmail = orderEmail;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.status = status;
-        this.stripeTransactionId = stripeTransactionId;
         this.isActive = isActive;
     }
 
-    public UserOrder(long userOrderId, Long registeredUserId, String shippingName, String shippingAddress, String shippingEmail, String status, boolean isActive) {
+    public UserOrder(long userOrderId, Long registeredUserId, String shippingName, String shippingAddress, String orderEmail, String status, boolean isActive) {
         this.userOrderId = userOrderId;
         this.registeredUserId = registeredUserId;
         this.shippingName = shippingName;
         this.shippingAddress = shippingAddress;
-        this.shippingEmail = shippingEmail;
+        this.orderEmail = orderEmail;
         this.status = status;
         this.isActive = isActive;
     }
@@ -96,12 +92,12 @@ public class UserOrder implements Serializable {
         this.shippingAddress = shippingAddress;
     }
 
-    public String getShippingEmail() {
-        return shippingEmail;
+    public String getOrderEmail() {
+        return orderEmail;
     }
 
-    public void setShippingEmail(String shippingEmail) {
-        this.shippingEmail = shippingEmail;
+    public void setOrderEmail(String orderEmail) {
+        this.orderEmail = orderEmail;
     }
 
     public Date getCreatedAt() {
@@ -126,14 +122,6 @@ public class UserOrder implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public Long getStripeTransactionId() {
-        return stripeTransactionId;
-    }
-
-    public void setStripeTransactionId(Long stripeTransactionId) {
-        this.stripeTransactionId = stripeTransactionId;
     }
 
     public boolean isActive() {

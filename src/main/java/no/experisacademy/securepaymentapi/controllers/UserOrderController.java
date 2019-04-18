@@ -29,7 +29,7 @@ public class UserOrderController {
                 userOrder.getRegisteredUserId(),
                 userOrder.getShippingName(),
                 userOrder.getShippingAddress(),
-                userOrder.getShippingEmail(),
+                userOrder.getOrderEmail(),
                 "in progress",
                 true));
 
