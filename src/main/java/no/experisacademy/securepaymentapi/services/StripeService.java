@@ -6,7 +6,7 @@ import com.stripe.exception.CardException;
 import com.stripe.exception.InvalidRequestException;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
-import no.experisacademy.securepaymentapi.models.ChargeRequest;
+import no.experisacademy.securepaymentapi.models.StripeChargeRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -25,15 +25,15 @@ public class StripeService {
         Stripe.apiKey = secretKey;
     }
 
-    public Charge charge(ChargeRequest chargeRequest)
+    public Charge charge(StripeChargeRequest stripeChargeRequest)
             throws AuthenticationException, InvalidRequestException,
             /*APIConnectionException,*/ CardException, /*APIException,*/ StripeException {
         Map<String, Object> chargeParams = new HashMap<>();
-        chargeParams.put("amount", Integer.toString(chargeRequest.getAmount()));
-        chargeParams.put("currency", chargeRequest.getCurrency());
-        //chargeParams.put("email", chargeRequest.getStripeEmail());
-        //chargeParams.put("description", chargeRequest.getDescription());
-        chargeParams.put("source", chargeRequest.getToken());
+        chargeParams.put("amount", Double.toString(stripeChargeRequest.getAmount()));
+        chargeParams.put("currency", stripeChargeRequest.getCurrency());
+        //chargeParams.put("email", stripeChargeRequest.getStripeEmail());
+        //chargeParams.put("description", stripeChargeRequest.getDescription());
+        chargeParams.put("source", stripeChargeRequest.getToken());
         return Charge.create(chargeParams);
     }
 }
