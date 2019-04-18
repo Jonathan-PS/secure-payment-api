@@ -220,3 +220,18 @@ INSERT INTO stripe_charge_request(user_order_id, amount, currency, receipt_email
 VALUES
 (1, 369.46, 'NOK', 'ola@nordmann.com', 'tok_visa', true),
 (2, 148.5, 'NOK', 'dani@targaryen.com', 'tok_visa', true);
+
+
+
+-- --------------------------------------------------------
+
+--
+-- QUERIES TO RETRIEVE LIST OF TABLES PRESENT IN DATABASE
+--
+
+
+SELECT table_name
+FROM information_schema.tables
+WHERE table_type='BASE TABLE'
+AND table_schema='public';
+
