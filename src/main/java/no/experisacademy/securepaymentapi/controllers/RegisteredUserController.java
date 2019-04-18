@@ -54,7 +54,7 @@ public class RegisteredUserController {
    * @param req
    * @return
    */
-  @GetMapping("/users/login")
+  @PostMapping("/users/login")
   public Long login(@RequestBody RegisteredUser registeredUser, HttpServletRequest req) {
 
     try {
