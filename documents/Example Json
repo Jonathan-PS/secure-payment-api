@@ -11,7 +11,7 @@ PUT: /addresses/create
 "registeredUserId": 1,
 "streetName": "Drammensveien",
 "streetNumber": "1",
-"housingCode": "H001",
+"housingCode": "",
 "city": "OSLO",
 "postalCode": 123,
 "country": "Norway"

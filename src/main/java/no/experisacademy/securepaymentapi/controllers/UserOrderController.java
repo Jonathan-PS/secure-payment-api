@@ -35,4 +35,6 @@ public class UserOrderController {
 
         return "UserOrder created";
     }
+
+    // orders/users/{registered_user_id}
 }
