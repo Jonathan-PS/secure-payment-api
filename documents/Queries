@@ -110,30 +110,6 @@ select * from address;
 -- --------------------------------------------------------
 
 --
--- Table structure for table stripe_transaction
---
-
-drop table stripe_transaction;
-
-CREATE TABLE stripe_transaction
-(
-    stripe_transaction_id SERIAL PRIMARY KEY,
-    amount double precision NOT NULL,
-    currency varchar(255) NOT NULL,
-    email varchar(255) NOT NULL,
-    token varchar(255) UNIQUE NOT NULL
-);
-
-
-select * from stripe_transaction;
-
-INSERT INTO stripe_transaction(amount,currency,email,token)
-VALUES
-(148, 'NOK', 'ola@nordmann.com', 'tok_1EPUfG2eZvKYlo2CAgb4OPZ8');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table user_order
 --
 
@@ -144,28 +120,27 @@ CREATE TABLE user_order
 (
     user_order_id SERIAL PRIMARY KEY,
     shipping_address varchar(255) NOT NULL,
-    shipping_email varchar(255) NOT NULL,
+    order_email varchar(255) NOT NULL,
     shipping_name varchar(255) NOT NULL,
     created_at timestamptz NOT NULL,
     updated_at timestamptz NOT NULL,
     status varchar(255) NOT NULL,
     registered_user_id bigint REFERENCES registered_user(registered_user_id),
-    stripe_transaction_id bigint UNIQUE REFERENCES stripe_transaction(stripe_transaction_id),
     is_active boolean NOT NULL
 );
 
 
 select * from user_order;
 
-INSERT INTO user_order (shipping_address, shipping_email, shipping_name, created_at, updated_at, status, registered_user_id, stripe_transaction_id,is_active)
+INSERT INTO user_order (shipping_address, order_email, shipping_name, created_at, updated_at, status, registered_user_id,is_active)
 VALUES
-('Drammensveien 1, H001, 0123 OSLO, Norway', 'ola@nordmann.com', 'Ola Nordmann', NOW(), NOW(), 'completed', 1, 1, true),
-('DS 1,  5541 Dragonstone, Crownlands', 'dani@targaryen.com', 'Daenerys Targaryen', NOW(), NOW(), 'in-progress', 3, null, true),
-('Red Keep 1, 0001 Kings Landing, Crownlands', 'robert@king.west', 'Robert Baratheon', NOW(), NOW(), 'failed', null, null, true),
-('Keep of the Iron Islands', 'euron@greyjoy.com', 'Euron Greyjoy', NOW(), NOW(), 'in-progress', null, null, true),
-('Keep 1, H101, 8999 Winterfell, The North', 'jon.snow@stark.com', 'Jon Snow', NOW(), NOW(), 'failed', 2, null, true),
-('Unknown', 'thehound@clegane.com', 'Sandor Clegane', NOW(), NOW(), 'in-progress', 4, null, true),
-('Riverrun', 'thehound@clegane.com', 'Sandor Clegane', NOW(), NOW(), 'completed', 4, null, true)
+('Drammensveien 1, H001, 0123 OSLO, Norway', 'ola@nordmann.com', 'Ola Nordmann', NOW(), NOW(), 'completed', 1, true),
+('DS 1,  5541 Dragonstone, Crownlands', 'dani@targaryen.com', 'Daenerys Targaryen', NOW(), NOW(), 'in-progress', 3, true),
+('Red Keep 1, 0001 Kings Landing, Crownlands', 'robert@king.west', 'Robert Baratheon', NOW(), NOW(), 'failed', null, true),
+('Keep of the Iron Islands', 'euron@greyjoy.com', 'Euron Greyjoy', NOW(), NOW(), 'in-progress', null, true),
+('Keep 1, H101, 8999 Winterfell, The North', 'jon.snow@stark.com', 'Jon Snow', NOW(), NOW(), 'failed', 2, true),
+('Unknown', 'thehound@clegane.com', 'Sandor Clegane', NOW(), NOW(), 'in-progress', 4, true),
+('Riverrun', 'thehound@clegane.com', 'Sandor Clegane', NOW(), NOW(), 'completed', 4, true)
 ;
 
 
@@ -207,3 +182,56 @@ VALUES
 (6,2,79.99,4,true),
 (7,6,249.5,2,true),
 (7,4,49.5,2,true);
+
+
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table stripe_charge_request
+--
+
+
+drop table stripe_charge_request;
+
+CREATE TABLE stripe_charge_request
+(
+    stripe_charge_request_id SERIAL PRIMARY KEY,
+    user_order_id bigint NOT NULL references user_order(user_order_id),
+
+    amount double precision NOT NULL,
+    currency varchar(255) NOT NULL,
+    receipt_email varchar(255) NOT NULL,
+    token varchar(255) NOT NULL,
+
+    receipt_url varchar(255),
+    stripe_status varchar(255),
+    description varchar(255),
+    stripe_charge_id varchar(255),
+
+    is_active BOOLEAN NOT NULL
+);
+
+
+select * from stripe_charge_request;
+
+INSERT INTO stripe_charge_request(user_order_id, amount, currency, receipt_email, token, is_active)
+VALUES
+(1, 369.46, 'NOK', 'ola@nordmann.com', 'tok_visa', true),
+(2, 148.5, 'NOK', 'dani@targaryen.com', 'tok_visa', true);
+
+
+
+-- --------------------------------------------------------
+
+--
+-- QUERIES TO RETRIEVE LIST OF TABLES PRESENT IN DATABASE
+--
+
+
+SELECT table_name
+FROM information_schema.tables
+WHERE table_type='BASE TABLE'
+AND table_schema='public';
+
