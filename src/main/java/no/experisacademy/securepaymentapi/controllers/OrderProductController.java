@@ -27,7 +27,6 @@ public class OrderProductController {
         return orderProducts;
     }
 
-    // MISSING PUT METHOD!!
     @PutMapping("/orderproducts/create")
     public String create(@RequestBody OrderProduct orderProduct){
         repository.save(new OrderProduct(
@@ -40,4 +39,6 @@ public class OrderProductController {
 
         return "OrderProduct created";
     }
+
+    // UPDATES ORDERPRODUCT
 }
