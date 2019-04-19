@@ -55,11 +55,12 @@ SELECT * FROM registered_user;
 INSERT INTO registered_user (email, first_name, last_name, password, created_at, is_active)
 VALUES
 ('ola@nordmann.com', 'Ola', 'Nordmann', 'askeladden', NOW(), true),
-('kari@nordmann.com', 'Kari', 'Nordmann', 'pippilangstrompe', NOW(), true),
 ('jon.snow@stark.com', 'Jon', 'Snow', 'daenerys', NOW(), true),
 ('dani@targaryen.com', 'Daenerys', 'Targaryen', 'auntieknowsbest', NOW(), true),
 ('thehound@clegane.got', 'Sandor', 'Clegane', 'fucktheking', NOW(), true),
-('theon@greyjoy.com', 'Theon', 'Greyjoy', 'winterfell', NOW(), true)
+('theon@greyjoy.com', 'Theon', 'Greyjoy', 'winterfell', NOW(), true),
+('kari@nordmann.com', 'Kari', 'Nordmann', 'pippilangstrompe', NOW(), true)
+
 ;
 
 
@@ -82,20 +83,21 @@ CREATE TABLE address
     postal_code bigint NOT NULL,
     city varchar(255) NOT NULL,
     country varchar(255) NOT NULL,
-    is_active boolean NOT NULL,
-    registered_user_id bigint NOT NULL REFERENCES registered_user(registered_user_id)
+    registered_user_id bigint NOT NULL REFERENCES registered_user(registered_user_id),
+    is_current boolean NOT NULL,
+    is_active boolean NOT NULL
 );
 
 select * from address;
 
-INSERT INTO address (street_name, street_number, housing_code, postal_code, city, country, is_active, registered_user_id)
+INSERT INTO address (street_name, street_number, housing_code, postal_code, city, country, is_active, is_current, registered_user_id)
 VALUES
-('Drammensveien', '1', 'H001', 0123, 'OSLO', 'Norway', true, 1),
-('Keep',          '1', 'H101', 8999, 'Winterfell', 'The North', true, 2),
-('DS',            '1',  null,  5541, 'Dragonstone', 'Westcoast', true, 3),
-('Unknown',       '0',  null,  0000, 'Unknown', 'Unknown', true, 4),
-('Cleganes Keep', '1' , null,  2257, 'Westerlands', 'Westerlands', true, 4),
-('Pyke',          '1a', null,  8123, 'Pyke', 'Iron Islands', true, 5)
+('Drammensveien', '1', 'H001', 0123, 'OSLO', 'Norway', true, true, 1),
+('Keep',          '1', 'H101', 8999, 'Winterfell', 'The North', true, true, 2),
+('DS',            '1',  null,  5541, 'Dragonstone', 'Westcoast', true, true, 3),
+('Unknown',       '0',  null,  0000, 'Unknown', 'Unknown', true, false, 4),
+('Cleganes Keep', '1' , null,  2257, 'Westerlands', 'Westerlands', true, true,  4),
+('Pyke',          '1a', null,  8123, 'Pyke', 'Iron Islands', true, true, 5)
 ;
 
 -- Foreign key restraint at work:
@@ -206,7 +208,6 @@ CREATE TABLE stripe_charge_request
     token varchar(255) NOT NULL,
     description varchar(255),
 
-
     stripe_charge_id varchar(255),
     stripe_status varchar(255),
     receipt_url varchar(255),
@@ -243,3 +244,4 @@ FROM information_schema.tables
 WHERE table_type='BASE TABLE'
 AND table_schema='public';
 
+drop TABLE stripe_charge_request,address, order_product, user_order, product, registered_user;
