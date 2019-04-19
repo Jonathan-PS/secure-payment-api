@@ -50,9 +50,19 @@ public class AddressController {
   }
 
   // UPDATES CURRENT ADDRESS
-  /*@PutMapping("addresses/updatecurrent")
-  public String updateCurrent(){
+  @PutMapping("addresses/updatecurrent/{registeredUserId}")
+  public String updateCurrent(@PathVariable Integer registeredUserId){
+    List<Address> addresses = repository.findByRegisteredUserId(registeredUserId);
 
-    return "Current address updated"
+    System.out.println("SE HER " + addresses.toArray());
+    return "Current address updated";
+  }
+
+  /*// UPDATES CURRENT ADDRESS
+  @PutMapping("addresses/updatecurrent")
+  public String updateCurrent(@RequestBody Long oldCurrent, Long newCurrent){
+    Address oldCurrent = repository.findById().get();
+
+    return "Current address updated";
   }*/
 }
