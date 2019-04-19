@@ -30,17 +30,35 @@ public class StripeChargeRequest {
     @Column(name = "token")
     private String token;
 
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "stripe_charge_id")
+    private String stripeChargeId;
+
     @Column(name = "receipt_url")
     private String receiptUrl;
 
     @Column(name = "stripe_status")
     private String stripeStatus;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "paid")
+    private Boolean paid;
 
-    @Column(name = "stripe_charge_id")
-    private String stripeChargeId;
+    @Column(name = "outcome_network_status")
+    private String outcomeNetworkStatus;
+
+    @Column(name = "outcome_risk_level")
+    private String outcomeRiskLevel;
+
+    @Column(name = "outcome_risk_score")
+    private Long outcomeRiskScore;
+
+    @Column(name = "outcome_seller_message")
+    private String outcomeSellerMessage;
+
+    @Column(name = "outcome_type")
+    private String outcomeType;
 
     @Column(name = "is_active")
     private boolean isActive;
@@ -59,6 +77,25 @@ public class StripeChargeRequest {
         this.stripeStatus = stripeStatus;
         this.description = description;
         this.stripeChargeId = stripeChargeId;
+        this.isActive = isActive;
+    }
+
+    public StripeChargeRequest(Integer userOrderId, String currency, Integer amount, String receiptEmail, String token, String description, String stripeChargeId, String receiptUrl, String stripeStatus, Boolean paid, String outcomeNetworkStatus, String outcomeRiskLevel, Long outcomeRiskScore, String outcomeSellerMessage, String outcomeType, boolean isActive) {
+        this.userOrderId = userOrderId;
+        this.currency = currency;
+        this.amount = amount;
+        this.receiptEmail = receiptEmail;
+        this.token = token;
+        this.description = description;
+        this.stripeChargeId = stripeChargeId;
+        this.receiptUrl = receiptUrl;
+        this.stripeStatus = stripeStatus;
+        this.paid = paid;
+        this.outcomeNetworkStatus = outcomeNetworkStatus;
+        this.outcomeRiskLevel = outcomeRiskLevel;
+        this.outcomeRiskScore = outcomeRiskScore;
+        this.outcomeSellerMessage = outcomeSellerMessage;
+        this.outcomeType = outcomeType;
         this.isActive = isActive;
     }
 
@@ -144,6 +181,54 @@ public class StripeChargeRequest {
 
     public boolean isActive() {
         return isActive;
+    }
+
+    public Boolean getPaid() {
+        return paid;
+    }
+
+    public void setPaid(Boolean paid) {
+        this.paid = paid;
+    }
+
+    public String getOutcomeNetworkStatus() {
+        return outcomeNetworkStatus;
+    }
+
+    public void setOutcomeNetworkStatus(String outcomeNetworkStatus) {
+        this.outcomeNetworkStatus = outcomeNetworkStatus;
+    }
+
+    public String getOutcomeRiskLevel() {
+        return outcomeRiskLevel;
+    }
+
+    public void setOutcomeRiskLevel(String outcomeRiskLevel) {
+        this.outcomeRiskLevel = outcomeRiskLevel;
+    }
+
+    public Long getOutcomeRiskScore() {
+        return outcomeRiskScore;
+    }
+
+    public void setOutcomeRiskScore(Long outcomeRiskScore) {
+        this.outcomeRiskScore = outcomeRiskScore;
+    }
+
+    public String getOutcomeSellerMessage() {
+        return outcomeSellerMessage;
+    }
+
+    public void setOutcomeSellerMessage(String outcomeSellerMessage) {
+        this.outcomeSellerMessage = outcomeSellerMessage;
+    }
+
+    public String getOutcomeType() {
+        return outcomeType;
+    }
+
+    public void setOutcomeType(String outcomeType) {
+        this.outcomeType = outcomeType;
     }
 
     public void setActive(boolean active) {

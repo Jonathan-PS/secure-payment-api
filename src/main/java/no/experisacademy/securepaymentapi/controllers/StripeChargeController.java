@@ -58,10 +58,16 @@ public class StripeChargeController {
                 stripeChargeRequest.getAmount(),
                 stripeChargeRequest.getReceiptEmail(),
                 stripeChargeRequest.getToken(),
-                charge.getReceiptUrl(),
-                charge.getStatus(),
                 charge.getDescription(),
                 charge.getId(),
+                charge.getReceiptUrl(),
+                charge.getStatus(),
+                charge.getPaid(),
+                charge.getOutcome().getNetworkStatus(),
+                charge.getOutcome().getRiskLevel(),
+                charge.getOutcome().getRiskScore(),
+                charge.getOutcome().getSellerMessage(),
+                charge.getOutcome().getType(),
                 true
                 ));
 
