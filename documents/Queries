@@ -204,11 +204,19 @@ CREATE TABLE stripe_charge_request
     currency varchar(255) NOT NULL,
     receipt_email varchar(255) NOT NULL,
     token varchar(255) NOT NULL,
-
-    receipt_url varchar(255),
-    stripe_status varchar(255),
     description varchar(255),
+
+
     stripe_charge_id varchar(255),
+    stripe_status varchar(255),
+    receipt_url varchar(255),
+
+    paid BOOLEAN,
+    outcome_network_status varchar(255),
+    outcome_risk_level varchar(255),
+    outcome_risk_score varchar(255),
+    outcome_seller_message varchar(255),
+    outcome_type varchar(255),
 
     is_active BOOLEAN NOT NULL
 );
