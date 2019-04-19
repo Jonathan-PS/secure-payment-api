@@ -28,19 +28,19 @@ PUT: /product/create
 
 PUT: /stripe/charge
 {
-    “userOrderId”: 1,
-    “currency”: “nok”,
-    “amount”: 100000,
-    “email”: “ola.normann@mail.no”,
-    “token”: “tok_visa”
+    "userOrderId": 1,
+    "currency": "nok",
+    "amount": 100000,
+    "receiptEmail": "ola.normann@mail.no",
+    "token": "tok_visa"
 }
 
 PUT: /orders/create
 {
-	“registeredUserId”: 1,
-	“shippingName”: “Ola Normann”,
-	“shippingAddress”: “Drammensveien 61b, 1231 Oslo”
-	“orderEmail”: “ola.normann@mail.no”
+	"registeredUserId": 1,
+	"shippingName": "Ola Normann",
+	"shippingAddress": "Drammensveien 61b, 1231 Oslo"
+	"orderEmail": "ola.normann@mail.no"
 }
 
 PUT: /orderproducts/create
