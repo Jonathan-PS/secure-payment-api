@@ -56,7 +56,7 @@ public class AddressController {
     return "New address created";
   }
 
-  // UPDATES CURRENT ADDRESS
+  // UPDATES CURRENT ADDRESS FOR A USER
   @GetMapping("addresses/updatecurrent/{addressId}")
   public String updateCurrent(@PathVariable Long addressId){
     Address newCurrentAddress = repository.findById(addressId).get();
