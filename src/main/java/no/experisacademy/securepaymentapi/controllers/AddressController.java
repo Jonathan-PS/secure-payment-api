@@ -44,6 +44,13 @@ public class AddressController {
   /* Creates a new address */
   @PutMapping("/addresses/create")
   public String create(@RequestBody Address address) {
+    List<Address> userAddresses = repository.findByRegisteredUserId(address.getRegisteredUserId());
+    for(Address a : userAddresses){
+      if(a.getCurrent().equals(true)){
+        a.setCurrent(false);
+        repository.save(a);
+      }
+    }
     repository.save(new Address(address.getRegisteredUserId(), address.getStreetName(), address.getStreetNumber(), address.getHousingCode(), address.getCity(), address.getPostalCode(), address.getCountry(), true, true));
 
     return "New address created";
