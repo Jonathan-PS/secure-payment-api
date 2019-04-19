@@ -33,13 +33,16 @@ public class Address implements Serializable {
     @Column(name = "country")
     private String country;
 
+    @Column(name = "is_current")
+    private Boolean isCurrent;
+
     @Column(name = "is_active")
     private Boolean isActive;
 
     public Address() {
     }
 
-    public Address(Integer registeredUserId, String streetName, String streetNumber, String housingCode, String city, Integer postalCode, String country, Boolean isActive) {
+    public Address(Integer registeredUserId, String streetName, String streetNumber, String housingCode, String city, Integer postalCode, String country, Boolean isCurrent, Boolean isActive) {
         this.registeredUserId = registeredUserId;
         this.streetName = streetName;
         this.streetNumber = streetNumber;
@@ -47,6 +50,7 @@ public class Address implements Serializable {
         this.city = city;
         this.postalCode = postalCode;
         this.country = country;
+        this.isCurrent = isCurrent;
         this.isActive = isActive;
     }
 
@@ -116,6 +120,14 @@ public class Address implements Serializable {
 
     public Boolean getActive() {
         return isActive;
+    }
+
+    public Boolean getCurrent() {
+        return isCurrent;
+    }
+
+    public void setCurrent(Boolean current) {
+        isCurrent = current;
     }
 
     public void setActive(Boolean active) {
