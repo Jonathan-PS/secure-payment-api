@@ -18,7 +18,7 @@ public class AddressController {
   /* Returns all addresses in the database */
   @GetMapping("/addresses")
   public List<Address> findAllAddresses() {
-    List<Address> addresses = repository.findAll();
+    List<Address> addresses = repository.findAllOrderedById();
     return addresses;
   }
 
@@ -37,7 +37,7 @@ public class AddressController {
   // LIST ALL ADDRESSES FOR A USER
   @GetMapping("/addresses/users/{registeredUserId}")
   public List<Address> findAddressByRegisteredUserId(@PathVariable Integer registeredUserId){
-    List<Address> userAddresses = repository.findByRegisteredUserId(registeredUserId);
+    List<Address> userAddresses = repository.findByRegisteredUserIdOrdered(registeredUserId);
     return userAddresses;
   }
 
@@ -57,19 +57,24 @@ public class AddressController {
   }
 
   // UPDATES CURRENT ADDRESS
-  @PutMapping("addresses/updatecurrent/{registeredUserId}")
-  public String updateCurrent(@PathVariable Integer registeredUserId){
-    List<Address> addresses = repository.findByRegisteredUserId(registeredUserId);
+  @PutMapping("addresses/updatecurrent/{addressId}")
+  public String updateCurrent(@PathVariable Long addressId){
+    Address newCurrentAddress = repository.findById(addressId).get();
 
-    System.out.println("SE HER " + addresses.toArray());
+    List<Address> userAddresses = repository.findByRegisteredUserId(newCurrentAddress.getRegisteredUserId());
+
+    for(Address address : userAddresses) {
+      if (address.getCurrent().equals(true)) {
+        address.setCurrent(false);
+        repository.save(address);
+      }
+    }
+
+    newCurrentAddress.setCurrent(true);
+    repository.save(newCurrentAddress);
+
+
     return "Current address updated";
   }
 
-  /*// UPDATES CURRENT ADDRESS
-  @PutMapping("addresses/updatecurrent")
-  public String updateCurrent(@RequestBody Long oldCurrent, Long newCurrent){
-    Address oldCurrent = repository.findById().get();
-
-    return "Current address updated";
-  }*/
 }
