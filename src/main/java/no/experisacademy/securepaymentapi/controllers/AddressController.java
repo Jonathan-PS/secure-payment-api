@@ -50,5 +50,9 @@ public class AddressController {
   }
 
   // UPDATES CURRENT ADDRESS
+  /*@PutMapping("addresses/updatecurrent")
+  public String updateCurrent(){
 
+    return "Current address updated"
+  }*/
 }

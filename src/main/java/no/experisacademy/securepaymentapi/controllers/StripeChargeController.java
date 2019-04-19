@@ -50,7 +50,6 @@ public class StripeChargeController {
         // Print to console
         System.out.println("Customer Payment is created!");
         gsonPrettyPrint(charge);
-        System.out.println("SE HER" + charge.getId());
 
         repository.save(new StripeChargeRequest(
                 stripeChargeRequest.getUserOrderId(),
