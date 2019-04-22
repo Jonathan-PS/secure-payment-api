@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
+import com.stripe.model.Customer;
 import no.experisacademy.securepaymentapi.models.StripeChargeRequest;
 import no.experisacademy.securepaymentapi.repositories.StripeChargeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class StripeChargeController {
     }
 
 
-    @PutMapping("/stripe/charge")
+    /*@PutMapping("/stripe/charge")
     public StripeChargeRequest chargeRequest(@RequestBody StripeChargeRequest stripeChargeRequest, Model model)
             throws StripeException {
         //gsonPrettyPrint(stripeChargeRequest);
@@ -71,6 +72,62 @@ public class StripeChargeController {
                 ));
 
         return stripeChargeRequest;
+    }*/
+
+    @PutMapping("/stripe/charge")
+    public StripeChargeRequest chargeRequest(@RequestBody StripeChargeRequest stripeChargeRequest, Model model)
+            throws StripeException {
+
+        // User getCustumerIdByEmail() method to get Customer ID
+        String cusId = getCustomerIdByEmail(stripeChargeRequest.getReceiptEmail());
+
+        // Retrieve correct customer
+        Customer customer = Customer.retrieve(cusId);
+        Map<String, Object> chargeParam = new HashMap<String, Object>();
+
+        // Convert params to correct StripePayment params
+        String amountString = Integer.toString(stripeChargeRequest.getAmount());
+        String currencyToLower = stripeChargeRequest.getCurrency().toLowerCase();
+
+        // Add payment parameters
+        chargeParam.put("amount", amountString); // 100 = 1.00 currency
+        chargeParam.put("currency", currencyToLower); // for cencts min 50
+        chargeParam.put("description", stripeChargeRequest.getDescription());
+        chargeParam.put("customer", customer.getId());
+        chargeParam.put("source", "card_1ES1vUDNGKvGPvcfnbsqVB0O");
+
+        // METADATA - Order_id
+        Map<String, String> initialMetadata = new HashMap<String, String>();
+        initialMetadata.put("order_id", stripeChargeRequest.getUserOrderId().toString());
+        chargeParam.put("metadata", initialMetadata);
+
+        // Create Payment with parameters
+        Charge charge =  Charge.create(chargeParam);
+
+        // Print to console
+        System.out.println("Customer Payment is created!");
+        gsonPrettyPrint(charge);
+
+        repository.save(new StripeChargeRequest(
+                stripeChargeRequest.getUserOrderId(),
+                stripeChargeRequest.getCurrency(),
+                stripeChargeRequest.getAmount(),
+                stripeChargeRequest.getReceiptEmail(),
+                stripeChargeRequest.getToken(),
+                charge.getDescription(),
+                charge.getId(),
+                charge.getReceiptUrl(),
+                charge.getStatus(),
+                charge.getPaid(),
+                charge.getOutcome().getNetworkStatus(),
+                charge.getOutcome().getRiskLevel(),
+                charge.getOutcome().getRiskScore(),
+                charge.getOutcome().getSellerMessage(),
+                charge.getOutcome().getType(),
+                true
+        ));
+
+        return stripeChargeRequest;
     }
 
     @GetMapping("/stripe")
@@ -93,6 +150,25 @@ public class StripeChargeController {
     public static String gsonPrettyToJson(Object obj) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         return gson.toJson(obj);
+    }
+
+    public static String getCustomerIdByEmail(String email) throws StripeException {
+        // Get Customer ID from email
+
+        Map<String, Object> options = new HashMap<>();
+        options.put("email", email);
+        List<Customer> customers = Customer.list(options).getData();
+
+        if (customers.size() > 0) {
+            Customer customer = customers.get(0);
+            String cusId = customer.getId();
+            System.out.println("Customer with email '" + email + "' is "+ cusId);
+            return cusId;
+        } else {
+            System.out.println("No customers with that email");
+            return "can't find customer ID";
+        }
+        //System.out.println(customers);
     }
 
 }

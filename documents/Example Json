@@ -31,7 +31,7 @@ PUT: /stripe/charge
     "userOrderId": 1,
     "currency": "nok",
     "amount": 100000,
-    "receiptEmail": "ola.normann@mail.no",
+    "receiptEmail": "ola.normann@mail.com",
     "token": "tok_visa"
 }
 
