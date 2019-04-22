@@ -94,7 +94,7 @@ public class StripeChargeController {
         chargeParam.put("currency", currencyToLower); // for cencts min 50
         chargeParam.put("description", stripeChargeRequest.getDescription());
         chargeParam.put("customer", customer.getId());
-        chargeParam.put("source", stripeChargeRequest.getToken());
+        //chargeParam.put("source", stripeChargeRequest.getToken());
 
         // METADATA - Order_id
         Map<String, String> initialMetadata = new HashMap<String, String>();
