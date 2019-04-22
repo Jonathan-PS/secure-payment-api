@@ -1,6 +1,7 @@
 package no.experisacademy.securepaymentapi;
 
 
+import com.google.gson.JsonObject;
 import com.stripe.model.*;
 import no.experisacademy.securepaymentapi.repositories.ProductRepository;
 import no.experisacademy.securepaymentapi.repositories.RegisteredUserRepository;
@@ -57,6 +58,7 @@ public class Application {
 		// THESE ONES ArRE LATEST
 		//printCustomerIdByEmail("ola@nordmann.com");
 		// addPaymentFromEmailDefaultCard("ola@nordmann.com", 52525, "nok", "Purchase at: Secure-payment-client");
+		getCardIdFromLast4("helene.harmens@gmail.com", "4444");
 
 		// RUN SPRING APPLICATION
 		SpringApplication.run(Application.class, args);
@@ -114,10 +116,10 @@ public class Application {
 			System.out.println("No customers with that email");
 		}
 
-		//System.out.println(customers);
+		System.out.println("CUSTOMER INFO:\n"+customers);
 	}
 
-	// NEWEST!
+	// NEW!
 	public static String getCustomerIdByEmail(String email) throws StripeException {
 		// Get Customer ID from email
 
@@ -137,7 +139,7 @@ public class Application {
 		//System.out.println(customers);
 	}
 
-	// NEWEST!
+	// NEW!
 	public static void addPaymentFromEmailDefaultCard(String email, int amount, String currency, String description) throws StripeException {
 		// use getCustomerIdByEmail() method to get Customer ID
 		String cusId = getCustomerIdByEmail(email);
@@ -169,6 +171,55 @@ public class Application {
 		// Print to console
 		System.out.println("Customer Payment for id "+ cusId +"is created!");
 		gsonPrettyPrint(charge);
+	}
+
+	// NEWEST!
+	public static void getCardIdFromLast4(String email, String last4) throws StripeException {
+		// Get CardID from Last4
+
+		Map<String, Object> options = new HashMap<>();
+		options.put("email", email);
+		List<Customer> customers = Customer.list(options).getData();
+
+		// IF CUSTOMER WITH EMAIL EXIST
+		if (customers.size() > 0) {
+
+			/* ------- GET CUSTOMER ID ------------------------------------------ */
+			Customer customer = customers.get(0);   // Get all info about that customer
+			String cusId = customer.getId();   // Get customer ID from Customer
+			System.out.println("Customer with email '" + email + "' is "+ cusId);   // Print Customer ID
+
+
+			/* ------- GET CARD ID ---------------------------------------------- */
+			Object customerData = customer.getSources().getData();   // Get Data from Customer
+			int dataSize = ((List) customerData).size();   // Save SIZE of data to use for loop
+
+			boolean hasCardId = false;   // If there's a match, it sets this to true
+
+			// Go through Customer Data
+			for (int i = 0; i<dataSize; i++){
+				// Save Part of Customer Data in variable
+				Object customerDataPart = customer.getSources().getData().get(i);
+
+				// Save to string and remove double quotes (to check if it contains "last4")
+				String dataPartString = customerDataPart.toString().replace("\"", "").trim();
+
+				// CHECK IF DATA PART CONTAINS last4 and prints it
+				if (dataPartString.contains("last4: " + last4)){
+					Object cardId = ((PaymentSource) customerDataPart).getId(); // If match, save Card ID
+					//System.out.println("cus: "+"i:"+ i +gsonPrettyToJson(customerDataPart));
+					System.out.println("cardID with last4 is "+last4+": " + cardId);
+					hasCardId = true;   // Set to true
+					break;
+				}
+			}
+			// If no Card ID is found
+			if (!hasCardId) {
+				System.out.println("Customer has no card with last4 "+last4);
+			}
+		} else {
+			System.out.println("No customers with that email");
+		}
 	}
 
 	public static void createCardForId(String cusId, String cardNum, String expMonth,
