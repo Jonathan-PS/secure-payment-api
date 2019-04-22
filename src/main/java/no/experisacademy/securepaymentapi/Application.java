@@ -15,7 +15,9 @@ import com.google.gson.GsonBuilder;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -51,6 +53,10 @@ public class Application {
 		//addPaymentSelectCard("cus_ErjwhB11tYVZGH","card_1EOAxYDNGKvGPvcfQVmRK9J0", 3000, "nok", "tok_visa");
 		//public static void addPaymentFromCard(String cardId, int amount, String currency) throws StripeException {
 		//addPaymentWithToken("tok_1EQ9wgDNGKvGPvcfLG7pT8CL", 500, "NOK");
+
+		// THESE ONES ArRE LATEST
+		//printCustomerIdByEmail("ola@nordmann.com");
+		// addPaymentFromEmailDefaultCard("ola@nordmann.com", 52525, "nok", "Purchase at: Secure-payment-client");
 
 		// RUN SPRING APPLICATION
 		SpringApplication.run(Application.class, args);
@@ -90,6 +96,79 @@ public class Application {
 
 		// Print to console
 		System.out.println("\nNew customer created!\n\tEmail: "+email+"\n\tID: "+newCustomer.getId()+"\n");
+	}
+
+	public static void printCustomerIdByEmail(String email) throws StripeException {
+		// Get Customer ID from email
+
+		Map<String, Object> options = new HashMap<>();
+		options.put("email", email);
+		List<Customer> customers = Customer.list(options).getData();
+
+		if (customers.size() > 0) {
+			Customer customer = customers.get(0);
+			String cusId = customer.getId();
+			System.out.println("Customer with email '" + email + "' exist!");
+			System.out.println(cusId);
+		} else {
+			System.out.println("No customers with that email");
+		}
+
+		//System.out.println(customers);
+	}
+
+	// NEWEST!
+	public static String getCustomerIdByEmail(String email) throws StripeException {
+		// Get Customer ID from email
+
+		Map<String, Object> options = new HashMap<>();
+		options.put("email", email);
+		List<Customer> customers = Customer.list(options).getData();
+
+		if (customers.size() > 0) {
+			Customer customer = customers.get(0);
+			String cusId = customer.getId();
+			System.out.println("Customer with email '" + email + "' is "+ cusId);
+			return cusId;
+		} else {
+			System.out.println("No customers with that email");
+			return "can't find customer ID";
+		}
+		//System.out.println(customers);
+	}
+
+	// NEWEST!
+	public static void addPaymentFromEmailDefaultCard(String email, int amount, String currency, String description) throws StripeException {
+		// use getCustomerIdByEmail() method to get Customer ID
+		String cusId = getCustomerIdByEmail(email);
+
+		// Retrieve correct customer
+		Customer customer = Customer.retrieve(cusId);
+		Map<String, Object> chargeParam = new HashMap<String, Object>();
+
+		// Convert params to correct StripePayment params
+		String amountString = Integer.toString(amount);
+		String currencyToLower = currency.toLowerCase();
+
+		// Add payment parameters
+		chargeParam.put("amount", amountString); // 100 = 1.00 currency
+		chargeParam.put("currency",currencyToLower); // for cents min 50
+		chargeParam.put("description", description);
+		chargeParam.put("customer",customer.getId()); // Using Customer ID (and get default card!)
+		//chargeParam.put("source", "tok_mastercard");
+		// ^ obtained with StripePayment.js
+
+		// METADATA - Order_id
+		Map<String, String> initialMetadata = new HashMap<String, String>();
+		initialMetadata.put("order_id", "1234");
+		chargeParam.put("metadata", initialMetadata);
+
+		// Create Payment with parameters
+		Charge charge = Charge.create(chargeParam);
+
+		// Print to console
+		System.out.println("Customer Payment for id "+ cusId +"is created!");
+		gsonPrettyPrint(charge);
 	}
 
 	public static void createCardForId(String cusId, String cardNum, String expMonth,
