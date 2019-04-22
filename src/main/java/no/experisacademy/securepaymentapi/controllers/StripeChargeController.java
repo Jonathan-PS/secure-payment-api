@@ -33,7 +33,7 @@ public class StripeChargeController {
     }
 
 
-    @PutMapping("/stripe/charge")
+    /*@PutMapping("/stripe/charge")
     public StripeChargeRequest chargeRequest(@RequestBody StripeChargeRequest stripeChargeRequest, Model model)
             throws StripeException {
         //gsonPrettyPrint(stripeChargeRequest);
@@ -72,9 +72,9 @@ public class StripeChargeController {
                 ));
 
         return stripeChargeRequest;
-    }
+    }*/
 
-   /* @PutMapping("/stripe/charge")
+    @PutMapping("/stripe/charge")
     public StripeChargeRequest chargeRequest(@RequestBody StripeChargeRequest stripeChargeRequest, Model model)
             throws StripeException {
 
@@ -128,7 +128,7 @@ public class StripeChargeController {
         ));
 
         return stripeChargeRequest;
-    }*/
+    }
 
     @GetMapping("/stripe")
     public List<StripeChargeRequest> findAll(){
