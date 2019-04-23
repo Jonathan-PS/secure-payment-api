@@ -58,7 +58,7 @@ public class Application {
 		// THESE ONES ArRE LATEST
 		//printCustomerIdByEmail("ola@nordmann.com");
 		// addPaymentFromEmailDefaultCard("ola@nordmann.com", 52525, "nok", "Purchase at: Secure-payment-client");
-		getCardIdFromLast4("helene.harmens@gmail.com", "4444");
+		getCardIdFromLast4("ola@nordmann.com", "4444");
 
 		// RUN SPRING APPLICATION
 		SpringApplication.run(Application.class, args);
@@ -174,7 +174,7 @@ public class Application {
 	}
 
 	// NEWEST!
-	public static void getCardIdFromLast4(String email, String last4) throws StripeException {
+	public static String getCardIdFromLast4(String email, String last4) throws StripeException {
 		// Get CardID from Last4
 
 		Map<String, Object> options = new HashMap<>();
@@ -216,9 +216,13 @@ public class Application {
 			// If no Card ID is found
 			if (!hasCardId) {
 				System.out.println("Customer has no card with last4 "+last4);
+				return null;
 			}
+			return last4;
+
 		} else {
 			System.out.println("No customers with that email");
+			return null;
 		}
 	}
 
