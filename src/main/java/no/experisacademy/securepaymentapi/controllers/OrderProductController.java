@@ -28,7 +28,7 @@ public class OrderProductController {
     }
 
     @PutMapping("/orderproducts/create")
-    public String create(@RequestBody OrderProduct orderProduct){
+    public Long create(@RequestBody OrderProduct orderProduct){
         repository.save(new OrderProduct(
                 orderProduct.getUserOrderId(),
                 orderProduct.getProductId(),
@@ -37,7 +37,7 @@ public class OrderProductController {
                 true
                 ));
 
-        return "OrderProduct created";
+        return orderProduct.getUserOrderId();
     }
 
     // UPDATES ORDERPRODUCT

@@ -22,7 +22,7 @@ public class UserOrderController {
     }
 
     @PutMapping("/orders/create")
-    public String createOreder(@RequestBody UserOrder userOrder) {
+    public Long createOreder(@RequestBody UserOrder userOrder) {
 
         repository.save(new UserOrder(
                 userOrder.getUserOrderId(),
@@ -33,7 +33,7 @@ public class UserOrderController {
                 "in progress",
                 true));
 
-        return "UserOrder created";
+        return userOrder.getUserOrderId();
     }
 
     // LIST ALL ORDERS FOR A USER
