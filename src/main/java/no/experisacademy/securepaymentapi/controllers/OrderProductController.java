@@ -40,5 +40,12 @@ public class OrderProductController {
         return orderProduct.getUserOrderId();
     }
 
+    @PutMapping("/orderproducts/bulkcreate")
+    public String create(@RequestBody List<OrderProduct> orderProducts){
+        repository.saveAll(orderProducts);
+
+        return "Order products created";
+    }
+
     // UPDATES ORDERPRODUCT
 }

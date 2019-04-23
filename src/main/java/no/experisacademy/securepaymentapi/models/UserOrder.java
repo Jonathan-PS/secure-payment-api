@@ -50,12 +50,14 @@ public class UserOrder implements Serializable {
         this.isActive = isActive;
     }
 
-    public UserOrder(long userOrderId, Long registeredUserId, String shippingName, String shippingAddress, String orderEmail, String status, boolean isActive) {
+    public UserOrder(Long userOrderId, Long registeredUserId, String shippingName, String shippingAddress, String orderEmail, Date createdAt, Date updatedAt, String status, boolean isActive) {
         this.userOrderId = userOrderId;
         this.registeredUserId = registeredUserId;
         this.shippingName = shippingName;
         this.shippingAddress = shippingAddress;
         this.orderEmail = orderEmail;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
         this.status = status;
         this.isActive = isActive;
     }

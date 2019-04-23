@@ -5,6 +5,7 @@ import no.experisacademy.securepaymentapi.repositories.UserOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @CrossOrigin(origins = "*")
@@ -23,17 +24,19 @@ public class UserOrderController {
 
     @PutMapping("/orders/create")
     public Long createOreder(@RequestBody UserOrder userOrder) {
-
-        repository.save(new UserOrder(
+        Date date = new Date();
+        UserOrder newOrder = repository.save(new UserOrder(
                 userOrder.getUserOrderId(),
                 userOrder.getRegisteredUserId(),
                 userOrder.getShippingName(),
                 userOrder.getShippingAddress(),
                 userOrder.getOrderEmail(),
+                date,
+                date,
                 "in progress",
                 true));
 
-        return userOrder.getUserOrderId();
+        return newOrder.getUserOrderId();
     }
 
     // LIST ALL ORDERS FOR A USER
@@ -42,6 +45,4 @@ public class UserOrderController {
         List<UserOrder> userOrders = repository.findByRegisteredUserId(registeredUserId);
         return userOrders;
     }
-
-    // UPDATES USERORDER STATUS
 }
