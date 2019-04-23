@@ -3,7 +3,6 @@ package no.experisacademy.securepaymentapi.controllers;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
-import com.stripe.model.Customer;
 import no.experisacademy.securepaymentapi.models.StripeChargeRequest;
 import no.experisacademy.securepaymentapi.repositories.StripeChargeRepository;
 import no.experisacademy.securepaymentapi.services.StripeService;
@@ -36,12 +35,13 @@ public class StripeChargeController {
     }
 
 
-    /*@PutMapping("/stripe/charge")
+    @PutMapping("/stripe/charge")
     public StripeChargeRequest chargeRequest(@RequestBody StripeChargeRequest stripeChargeRequest, Model model)
             throws StripeException {
         //gsonPrettyPrint(stripeChargeRequest);
         //stripeChargeRequest.setDescription("Example charge");
         //stripeChargeRequest.setCurrency(StripeChargeRequest.Currency.nok);
+        Date date = new Date();
 
         Map<String, Object> chargeParams = new HashMap<>();
         chargeParams.put("amount", Integer.toString(stripeChargeRequest.getAmount()));
@@ -53,7 +53,7 @@ public class StripeChargeController {
 
         // Print to console
         System.out.println("Customer Payment is created!");
-        gsonPrettyPrint(charge);
+        service.gsonPrettyPrint(charge);
 
         repository.save(new StripeChargeRequest(
                 stripeChargeRequest.getUserOrderId(),
@@ -62,6 +62,7 @@ public class StripeChargeController {
                 stripeChargeRequest.getReceiptEmail(),
                 stripeChargeRequest.getToken(),
                 charge.getDescription(),
+                date,
                 charge.getId(),
                 charge.getReceiptUrl(),
                 charge.getStatus(),
@@ -75,16 +76,16 @@ public class StripeChargeController {
                 ));
 
         return stripeChargeRequest;
-    }*/
+    }
 
-    @PutMapping("/stripe/charge")
+    /*@PutMapping("/stripe/charge")
     public StripeChargeRequest chargeRequest(@RequestBody StripeChargeRequest stripeChargeRequest, Model model)
             throws StripeException {
 
         Date date = new Date();
         String cardId = service.getCardIdFromLast4(stripeChargeRequest.getReceiptEmail(), stripeChargeRequest.getLast4());
 
-        // User getCustumerIdByEmail() method to get Customer ID
+        // User getCustomerIdByEmail() method to get Customer ID
         String cusId = service.getCustomerIdByEmail(stripeChargeRequest.getReceiptEmail());
 
         // Retrieve correct customer
@@ -136,7 +137,7 @@ public class StripeChargeController {
         ));
 
         return stripeChargeRequest;
-    }
+    }*/
 
     @GetMapping("/stripe")
     public List<StripeChargeRequest> findAll(){

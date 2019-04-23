@@ -74,18 +74,6 @@ public class StripeChargeRequest {
     public StripeChargeRequest() {
     }
 
-    public StripeChargeRequest(Integer userOrderId, String currency, Integer amount, String receiptEmail, String token, String receiptUrl, String stripeStatus, String description ,String stripeChargeId, boolean isActive) {
-        this.userOrderId = userOrderId;
-        this.currency = currency;
-        this.amount = amount;
-        this.receiptEmail = receiptEmail;
-        this.token = token;
-        this.receiptUrl = receiptUrl;
-        this.stripeStatus = stripeStatus;
-        this.description = description;
-        this.stripeChargeId = stripeChargeId;
-        this.isActive = isActive;
-    }
 
     public StripeChargeRequest(Integer userOrderId, String currency, Integer amount, String receiptEmail, String token, String description, String last4, Date createdAt, String stripeChargeId, String receiptUrl, String stripeStatus, Boolean paid, String outcomeNetworkStatus, String outcomeRiskLevel, Long outcomeRiskScore, String outcomeSellerMessage, String outcomeType, boolean isActive) {
         this.userOrderId = userOrderId;
@@ -95,6 +83,26 @@ public class StripeChargeRequest {
         this.token = token;
         this.description = description;
         this.last4 = last4;
+        this.createdAt = createdAt;
+        this.stripeChargeId = stripeChargeId;
+        this.receiptUrl = receiptUrl;
+        this.stripeStatus = stripeStatus;
+        this.paid = paid;
+        this.outcomeNetworkStatus = outcomeNetworkStatus;
+        this.outcomeRiskLevel = outcomeRiskLevel;
+        this.outcomeRiskScore = outcomeRiskScore;
+        this.outcomeSellerMessage = outcomeSellerMessage;
+        this.outcomeType = outcomeType;
+        this.isActive = isActive;
+    }
+
+    public StripeChargeRequest(Integer userOrderId, String currency, Integer amount, String receiptEmail, String token, String description, Date createdAt, String stripeChargeId, String receiptUrl, String stripeStatus, Boolean paid, String outcomeNetworkStatus, String outcomeRiskLevel, Long outcomeRiskScore, String outcomeSellerMessage, String outcomeType, boolean isActive) {
+        this.userOrderId = userOrderId;
+        this.currency = currency;
+        this.amount = amount;
+        this.receiptEmail = receiptEmail;
+        this.token = token;
+        this.description = description;
         this.createdAt = createdAt;
         this.stripeChargeId = stripeChargeId;
         this.receiptUrl = receiptUrl;

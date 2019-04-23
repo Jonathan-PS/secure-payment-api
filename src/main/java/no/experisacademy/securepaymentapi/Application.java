@@ -20,8 +20,7 @@ public class Application {
 	private static String secretApiKey ="sk_test_5B0GI5Lt8GUHvvptHkURkfY000Xj6Tvvii";
 
   
-	/*@Autowired
-	ProductRepository repository; */
+
 	public static void main(String[] args) throws StripeException{
 
 		// LESS SECURE: Connected account’s SECRET API KEY,
@@ -52,6 +51,12 @@ public class Application {
 		// addPaymentFromEmailDefaultCard("ola@nordmann.com", 52525, "nok", "Purchase at: Secure-payment-client");
 		// getCardIdFromLast4("helene.harmens@gmail.com", "4444");
 
+
+		//getCustomerIdByEmail("ola@nordmann.com");
+
+
+		//getCustomerIdByEmail("test@kanSlettes.no");
+
 		// RUN SPRING APPLICATION
 		SpringApplication.run(Application.class, args);
 	}
@@ -59,13 +64,39 @@ public class Application {
 
 	/* _________________________ METHODS _________________________*/
 
-	/**
-	 * Get Customer Info
-	 *
-	 * @param cusId Customer ID
-	 * @throws StripeException ExceptionHandling
-	 */
-	public static void getCustomerInfoFromId(String cusId) throws StripeException {
+	/*public static void createCustomer(String email) throws StripeException {
+		// Create new Customer with email
+		Map<String, Object> customerParameter = new HashMap<String, Object>();
+		customerParameter.put("email", email); // ("email", "ola@normann.com")
+		Customer newCustomer = Customer.create(customerParameter);
+
+		// Print to console
+		System.out.println("\nNew customer created!\n\tEmail: "+email+"\n\tID: "+newCustomer.getId()+"\n");
+	}
+
+	public static String getCustomerIdByEmail(String email) throws StripeException {
+		// Get Customer ID from email
+
+		Map<String, Object> options = new HashMap<>();
+		options.put("email", email);
+		List<Customer> customers = Customer.list(options).getData();
+		System.out.println(customers);
+
+		if (customers.size() > 0) {
+			Customer customer = customers.get(0);
+			String cusId = customer.getId();
+			System.out.println("Customer with email '" + email + "' is "+ cusId);
+			return cusId;
+		} else {
+			System.out.println("No customers with that email");
+			createCustomer(email);
+			System.out.println("New customer created in Stripe");
+			return "New customer created in Stripe";
+		}
+		//System.out.println(customers);
+	}*/
+	// MOVED METHODS TO StripeService.java
+	/*public static void getCustomerInfoFromId(String cusId) throws StripeException {
 		// Get customer info from id
 		Customer customer = Customer.retrieve(cusId);
 
@@ -75,12 +106,6 @@ public class Application {
 		System.out.println("\nCustomer info: ");
 	}
 
-	/**
-	 * Create a StripePayment customer
-	 *
-	 * @param email from input
-	 * @throws StripeException ExceptionHandling
-	 */
 	public static void createCustomer(String email) throws StripeException {
 		// Create new Customer with email
 		Map<String, Object> customerParameter = new HashMap<String, Object>();
@@ -89,7 +114,7 @@ public class Application {
 
 		// Print to console
 		System.out.println("\nNew customer created!\n\tEmail: "+email+"\n\tID: "+newCustomer.getId()+"\n");
-	}
+	}*/
 
 	public static void printCustomerIdByEmail(String email) throws StripeException {
 		// Get Customer ID from email
@@ -117,6 +142,7 @@ public class Application {
 		Map<String, Object> options = new HashMap<>();
 		options.put("email", email);
 		List<Customer> customers = Customer.list(options).getData();
+		System.out.println("CUSTOMERS:\n"+customers);
 
 		if (customers.size() > 0) {
 			Customer customer = customers.get(0);
