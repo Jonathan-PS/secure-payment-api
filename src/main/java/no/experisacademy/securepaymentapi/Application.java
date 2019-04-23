@@ -73,7 +73,6 @@ public class Application {
 		System.out.println("_____CUSTOMER INFO for id :"+cusId+"_____");
 		System.out.println("\nGet last resonse: "+customer.getLastResponse().requestId());
 		System.out.println("\nCustomer info: ");
-		gsonPrettyPrint(customer);
 	}
 
 	/**
@@ -111,7 +110,7 @@ public class Application {
 		System.out.println("CUSTOMER INFO:\n"+customers);
 	}
 
-	// MOVED METHOD TO StripeService.js
+	// MOVED METHOD TO StripeService.java
 	/*public static String getCustomerIdByEmail(String email) throws StripeException {
 		// Get Customer ID from email
 
@@ -131,7 +130,7 @@ public class Application {
 		//System.out.println(customers);
 	}*/
 
-	// MOVED METHOD TO StripeService.js
+	// MOVED METHOD TO StripeService.java
 	/*public static void addPaymentFromEmailDefaultCard(String email, int amount, String currency, String description) throws StripeException {
 		// use getCustomerIdByEmail() method to get Customer ID
 		String cusId = getCustomerIdByEmail(email);
@@ -265,7 +264,6 @@ public class Application {
 			System.out.println("Card ID: "+customer.getDefaultSource());
 			System.out.println("Currency: "+customer.getCurrency());
 			System.out.println("Shipping: ");
-			gsonPrettyPrint(customer.getShipping());
 			//gsonPrettyPrint(customer);
 			//System.out.println("Token (but prints Response body): ");
 			//gsonPrettyPrint(token);
@@ -307,7 +305,6 @@ public class Application {
 
 		// Print to console
 		System.out.println("Customer Payment for id "+ cusId +"is created!");
-		gsonPrettyPrint(charge);
 	}
 
 	/**
@@ -344,7 +341,6 @@ public class Application {
 
 		// Print to console
 		System.out.println("Customer Payment for id "+ cusId +"is created!");
-		gsonPrettyPrint(charge);
 		//System.out.println("Token: ");
 		//gsonPrettyPrint(token);
 
@@ -376,17 +372,16 @@ public class Application {
 
 		// Print to console
 		System.out.println("Customer Payment is created with token: " + token);
-		gsonPrettyPrint(charge);
 		//System.out.println("Token: ");
 		//gsonPrettyPrint(token);
 
 	}
 
+	// MOVED METHODS TO StripeService.java
 	/**
 	 * Use Gson to pretty-print Json
 	 *
 	 * @param obj from input
-	 */
 	public static void gsonPrettyPrint(Object obj) {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		System.out.println(gson.toJson(obj));
@@ -395,6 +390,6 @@ public class Application {
 	public static String gsonPrettyToJson(Object obj) {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		return gson.toJson(obj);
-	}
+	}*/
 
 }
