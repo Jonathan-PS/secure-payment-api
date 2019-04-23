@@ -1,6 +1,7 @@
 package no.experisacademy.securepaymentapi.models;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "stripe_charge_request")
@@ -32,6 +33,12 @@ public class StripeChargeRequest {
 
     @Column(name = "description")
     private String description;
+
+    @Column(name = "last4")
+    private String last4;
+
+    @Column(name = "created_at")
+    private Date createdAt;
 
     @Column(name = "stripe_charge_id")
     private String stripeChargeId;
@@ -80,13 +87,15 @@ public class StripeChargeRequest {
         this.isActive = isActive;
     }
 
-    public StripeChargeRequest(Integer userOrderId, String currency, Integer amount, String receiptEmail, String token, String description, String stripeChargeId, String receiptUrl, String stripeStatus, Boolean paid, String outcomeNetworkStatus, String outcomeRiskLevel, Long outcomeRiskScore, String outcomeSellerMessage, String outcomeType, boolean isActive) {
+    public StripeChargeRequest(Integer userOrderId, String currency, Integer amount, String receiptEmail, String token, String description, String last4, Date createdAt, String stripeChargeId, String receiptUrl, String stripeStatus, Boolean paid, String outcomeNetworkStatus, String outcomeRiskLevel, Long outcomeRiskScore, String outcomeSellerMessage, String outcomeType, boolean isActive) {
         this.userOrderId = userOrderId;
         this.currency = currency;
         this.amount = amount;
         this.receiptEmail = receiptEmail;
         this.token = token;
         this.description = description;
+        this.last4 = last4;
+        this.createdAt = createdAt;
         this.stripeChargeId = stripeChargeId;
         this.receiptUrl = receiptUrl;
         this.stripeStatus = stripeStatus;
@@ -165,6 +174,22 @@ public class StripeChargeRequest {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getLast4() {
+        return last4;
+    }
+
+    public void setLast4(String last4) {
+        this.last4 = last4;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public void setDescription(String description) {

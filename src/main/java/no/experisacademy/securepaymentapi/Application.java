@@ -1,22 +1,14 @@
 package no.experisacademy.securepaymentapi;
 
 
-import com.google.gson.JsonObject;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
 import com.stripe.model.*;
-import no.experisacademy.securepaymentapi.repositories.ProductRepository;
-import no.experisacademy.securepaymentapi.repositories.RegisteredUserRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import com.stripe.Stripe;
-import com.stripe.exception.StripeException;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,7 +50,7 @@ public class Application {
 		// THESE ONES ArRE LATEST
 		//printCustomerIdByEmail("ola@nordmann.com");
 		// addPaymentFromEmailDefaultCard("ola@nordmann.com", 52525, "nok", "Purchase at: Secure-payment-client");
-		getCardIdFromLast4("helene.harmens@gmail.com", "4444");
+		// getCardIdFromLast4("helene.harmens@gmail.com", "4444");
 
 		// RUN SPRING APPLICATION
 		SpringApplication.run(Application.class, args);
@@ -119,8 +111,8 @@ public class Application {
 		System.out.println("CUSTOMER INFO:\n"+customers);
 	}
 
-	// NEW!
-	public static String getCustomerIdByEmail(String email) throws StripeException {
+	// MOVED METHOD TO StripeService.js
+	/*public static String getCustomerIdByEmail(String email) throws StripeException {
 		// Get Customer ID from email
 
 		Map<String, Object> options = new HashMap<>();
@@ -137,10 +129,10 @@ public class Application {
 			return "can't find customer ID";
 		}
 		//System.out.println(customers);
-	}
+	}*/
 
-	// NEW!
-	public static void addPaymentFromEmailDefaultCard(String email, int amount, String currency, String description) throws StripeException {
+	// MOVED METHOD TO StripeService.js
+	/*public static void addPaymentFromEmailDefaultCard(String email, int amount, String currency, String description) throws StripeException {
 		// use getCustomerIdByEmail() method to get Customer ID
 		String cusId = getCustomerIdByEmail(email);
 
@@ -171,26 +163,28 @@ public class Application {
 		// Print to console
 		System.out.println("Customer Payment for id "+ cusId +"is created!");
 		gsonPrettyPrint(charge);
-	}
+	}*/
 
-	// NEWEST!
-	public static void getCardIdFromLast4(String email, String last4) throws StripeException {
+	// MOVED METHOD TO StripeService.java
+	/*public static void getCardIdFromLast4(String email, String last4) throws StripeException {
 		// Get CardID from Last4
+		Object cardId = null;
 
 		Map<String, Object> options = new HashMap<>();
 		options.put("email", email);
 		List<Customer> customers = Customer.list(options).getData();
+		System.out.println("ListEEEE " + customers);
 
 		// IF CUSTOMER WITH EMAIL EXIST
 		if (customers.size() > 0) {
 
-			/* ------- GET CUSTOMER ID ------------------------------------------ */
+			*//* ------- GET CUSTOMER ID ------------------------------------------ *//*
 			Customer customer = customers.get(0);   // Get all info about that customer
 			String cusId = customer.getId();   // Get customer ID from Customer
 			System.out.println("Customer with email '" + email + "' is "+ cusId);   // Print Customer ID
 
 
-			/* ------- GET CARD ID ---------------------------------------------- */
+			*//* ------- GET CARD ID ---------------------------------------------- *//*
 			Object customerData = customer.getSources().getData();   // Get Data from Customer
 			int dataSize = ((List) customerData).size();   // Save SIZE of data to use for loop
 
@@ -206,7 +200,7 @@ public class Application {
 
 				// CHECK IF DATA PART CONTAINS last4 and prints it
 				if (dataPartString.contains("last4: " + last4)){
-					Object cardId = ((PaymentSource) customerDataPart).getId(); // If match, save Card ID
+					cardId = ((PaymentSource) customerDataPart).getId(); // If match, save Card ID
 					//System.out.println("cus: "+"i:"+ i +gsonPrettyToJson(customerDataPart));
 					System.out.println("cardID with last4 is "+last4+": " + cardId);
 					hasCardId = true;   // Set to true
@@ -220,7 +214,9 @@ public class Application {
 		} else {
 			System.out.println("No customers with that email");
 		}
-	}
+
+		System.out.println("THIS IS THE CARDID" + cardId);
+	}*/
 
 	public static void createCardForId(String cusId, String cardNum, String expMonth,
 									   String expYear, String cvc) throws StripeException{

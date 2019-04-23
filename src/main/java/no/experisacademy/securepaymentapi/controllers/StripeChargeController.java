@@ -1,19 +1,19 @@
 package no.experisacademy.securepaymentapi.controllers;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
 import com.stripe.model.Customer;
 import no.experisacademy.securepaymentapi.models.StripeChargeRequest;
 import no.experisacademy.securepaymentapi.repositories.StripeChargeRepository;
+import no.experisacademy.securepaymentapi.services.StripeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +23,9 @@ import java.util.Map;
 public class StripeChargeController {
     @Autowired
     StripeChargeRepository repository;
+
+    @Autowired
+    StripeService service;
 
     @Value("sk_test_5B0GI5Lt8GUHvvptHkURkfY000Xj6Tvvii")
     private String secretKey;
@@ -78,8 +81,11 @@ public class StripeChargeController {
     public StripeChargeRequest chargeRequest(@RequestBody StripeChargeRequest stripeChargeRequest, Model model)
             throws StripeException {
 
+        Date date = new Date();
+        String cardId = service.getCardIdFromLast4(stripeChargeRequest.getReceiptEmail(), stripeChargeRequest.getLast4());
+
         // User getCustumerIdByEmail() method to get Customer ID
-        String cusId = getCustomerIdByEmail(stripeChargeRequest.getReceiptEmail());
+        String cusId = service.getCustomerIdByEmail(stripeChargeRequest.getReceiptEmail());
 
         // Retrieve correct customer
         Customer customer = Customer.retrieve(cusId);
@@ -94,7 +100,7 @@ public class StripeChargeController {
         chargeParam.put("currency", currencyToLower); // for cencts min 50
         chargeParam.put("description", stripeChargeRequest.getDescription());
         chargeParam.put("customer", customer.getId());
-        chargeParam.put("card", stripeChargeRequest.getToken());
+        chargeParam.put("source", cardId);
 
         // METADATA - Order_id
         Map<String, String> initialMetadata = new HashMap<String, String>();
@@ -106,7 +112,7 @@ public class StripeChargeController {
 
         // Print to console
         System.out.println("Customer Payment is created!");
-        gsonPrettyPrint(charge);
+        service.gsonPrettyPrint(charge);
 
         repository.save(new StripeChargeRequest(
                 stripeChargeRequest.getUserOrderId(),
@@ -115,6 +121,8 @@ public class StripeChargeController {
                 stripeChargeRequest.getReceiptEmail(),
                 stripeChargeRequest.getToken(),
                 charge.getDescription(),
+                stripeChargeRequest.getLast4(),
+                date,
                 charge.getId(),
                 charge.getReceiptUrl(),
                 charge.getStatus(),
@@ -136,39 +144,4 @@ public class StripeChargeController {
 
         return stripeChargeRequests;
     }
-
-    /**
-     * Use Gson to pretty-print Json
-     *
-     * @param obj from input
-     */
-    public static void gsonPrettyPrint(Object obj) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        System.out.println(gson.toJson(obj));
-    }
-
-    public static String gsonPrettyToJson(Object obj) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        return gson.toJson(obj);
-    }
-
-    public static String getCustomerIdByEmail(String email) throws StripeException {
-        // Get Customer ID from email
-
-        Map<String, Object> options = new HashMap<>();
-        options.put("email", email);
-        List<Customer> customers = Customer.list(options).getData();
-
-        if (customers.size() > 0) {
-            Customer customer = customers.get(0);
-            String cusId = customer.getId();
-            System.out.println("Customer with email '" + email + "' is "+ cusId);
-            return cusId;
-        } else {
-            System.out.println("No customers with that email");
-            return "can't find customer ID";
-        }
-        //System.out.println(customers);
-    }
-
 }

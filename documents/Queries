@@ -207,6 +207,8 @@ CREATE TABLE stripe_charge_request
     receipt_email varchar(255) NOT NULL,
     token varchar(255) NOT NULL,
     description varchar(255),
+    last4 varchar(255),
+    created_at timestamptz NOT NULL,
 
     stripe_charge_id varchar(255),
     stripe_status varchar(255),
