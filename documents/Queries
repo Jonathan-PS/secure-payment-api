@@ -80,7 +80,7 @@ CREATE TABLE address
     street_name varchar(255) NOT NULL,
     street_number varchar(255) NOT NULL,
     housing_code varchar(255), -- not NOT NULL :3
-    postal_code bigint NOT NULL,
+    postal_code varchar(255),
     city varchar(255) NOT NULL,
     country varchar(255) NOT NULL,
     registered_user_id bigint NOT NULL REFERENCES registered_user(registered_user_id),
@@ -92,12 +92,12 @@ select * from address;
 
 INSERT INTO address (street_name, street_number, housing_code, postal_code, city, country, is_active, is_current, registered_user_id)
 VALUES
-('Drammensveien', '1', 'H001', 0123, 'OSLO', 'Norway', true, true, 1),
-('Keep',          '1', 'H101', 8999, 'Winterfell', 'The North', true, true, 2),
-('DS',            '1',  null,  5541, 'Dragonstone', 'Westcoast', true, true, 3),
-('Unknown',       '0',  null,  0000, 'Unknown', 'Unknown', true, false, 4),
-('Cleganes Keep', '1' , null,  2257, 'Westerlands', 'Westerlands', true, true,  4),
-('Pyke',          '1a', null,  8123, 'Pyke', 'Iron Islands', true, true, 5)
+('Drammensveien', '1', 'H001', "0123", 'OSLO', 'Norway', true, true, 1),
+('Keep',          '1', 'H101', "8999", 'Winterfell', 'The North', true, true, 2),
+('DS',            '1',  null,  "5541", 'Dragonstone', 'Westcoast', true, true, 3),
+('Unknown',       '0',  null,  "0000", 'Unknown', 'Unknown', true, false, 4),
+('Cleganes Keep', '1' , null,  "2257", 'Westerlands', 'Westerlands', true, true,  4),
+('Pyke',          '1a', null,  "8123", 'Pyke', 'Iron Islands', true, true, 5)
 ;
 
 -- Foreign key restraint at work:
