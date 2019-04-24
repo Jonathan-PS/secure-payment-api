@@ -3,6 +3,8 @@ package no.experisacademy.securepaymentapi.controllers;
 import no.experisacademy.securepaymentapi.models.Address;
 import no.experisacademy.securepaymentapi.repositories.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,9 +19,9 @@ public class AddressController {
 
   /* Returns all addresses in the database */
   @GetMapping("/addresses")
-  public List<Address> findAllAddresses() {
+  public ResponseEntity<List<Address>> findAllAddresses() {
     List<Address> addresses = repository.findAllOrderedById();
-    return addresses;
+    return new ResponseEntity<>(addresses, HttpStatus.OK);
   }
 
   /* Returns a user. Matched on the email-address which is the primary key in the DB */
