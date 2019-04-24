@@ -30,11 +30,14 @@ public class Product implements Serializable {
     @Column(name = "is_active")
     private boolean isActive;
 
+    @Column(name = "is_digital")
+    private boolean isDigital;
+
     public Product(){
 
     }
 
-    public Product(Long productId, String productName, String description, Double priceEach, Integer stock, String imageUrl, Boolean isActive) {
+    public Product(Long productId, String productName, String description, Double priceEach, Integer stock, String imageUrl, Boolean isActive, Boolean isDigital) {
         this.productId = productId;
         this.productName = productName;
         this.description = description;
@@ -42,6 +45,7 @@ public class Product implements Serializable {
         this.stock = stock;
         this.imageUrl = imageUrl;
         this.isActive = isActive;
+        this.isDigital = isDigital;
     }
 
     public Long getProductId() {
@@ -98,5 +102,13 @@ public class Product implements Serializable {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public boolean isDigital() {
+        return isDigital;
+    }
+
+    public void setDigital(boolean digital) {
+        isDigital = digital;
     }
 }
