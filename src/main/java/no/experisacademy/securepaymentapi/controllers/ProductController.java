@@ -43,7 +43,7 @@ public class ProductController {
 
     @PutMapping("/products/create")
     public String create(@RequestBody Product product){
-        repository.save(new Product(product.getProductId(), product.getProductName(), product.getDescription(), product.getPriceEach(), product.getStock(), product.getImageUrl(), true));
+        repository.save(new Product(product.getProductId(), product.getProductName(), product.getDescription(), product.getPriceEach(), product.getStock(), product.getImageUrl(), true, product.isDigital()));
 
         return "Product is created";
     }

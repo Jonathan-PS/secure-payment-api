@@ -14,19 +14,20 @@ CREATE TABLE product(
     price_each double precision NOT NULL,
     stock int NOT NULL,
     image_url character varying(255),
-    is_active boolean NOT NULL
+    is_digital BOOLEAN NOT NULL,
+    is_active BOOLEAN NOT NULL
 );
 
 select * from product;
 
 
-INSERT INTO product (product_name, description, price_each, stock, image_url, is_active)
-VALUES ('Red Socks', 'Nice pair of red socks', 79.99, 10, 'http://sweetclipart.com/multisite/sweetclipart/files/socks_red.png', true),
-('White Socks', 'White socks not gonna stay white for long', 79.99, 25, 'http://sweetclipart.com/multisite/sweetclipart/files/socks_outline.png', true),
-('Blue Baby Socks', 'Nice pair of blue socks for baby boy', 49.50, 25, 'http://sweetclipart.com/multisite/sweetclipart/files/baby_boy_socks_blue.png', true),
-('Yellow Baby Socks', 'Nice pair of yellow socks', 49.50, 25, 'http://sweetclipart.com/multisite/sweetclipart/files/baby_socks_yellow.png', true),
-('Pink Baby Socks', 'Nice pair of pink socks for baby girl', 49.50, 25, 'http://sweetclipart.com/multisite/sweetclipart/files/baby_girl_socks_pink.png', true),
-('Phintastic Socks', 'The socks to impress all the girls', 249.50, 88, 'https://cdn.shopify.com/s/files/1/0002/4179/5099/products/Phintastic_hero_copy_7_2048x.png?v=1526476988', true);
+INSERT INTO product (product_name, description, price_each, stock, image_url, is_digital, is_active)
+VALUES ('Red Socks', 'Nice pair of red socks', 79.99, 10, 'http://sweetclipart.com/multisite/sweetclipart/files/socks_red.png', false, true),
+('White Socks', 'White socks not gonna stay white for long', 79.99, 25, 'http://sweetclipart.com/multisite/sweetclipart/files/socks_outline.png', false, true),
+('Blue Baby Socks', 'Nice pair of blue socks for baby boy', 49.50, 25, 'http://sweetclipart.com/multisite/sweetclipart/files/baby_boy_socks_blue.png', false, true),
+('Yellow Baby Socks', 'Nice pair of yellow socks', 49.50, 25, 'http://sweetclipart.com/multisite/sweetclipart/files/baby_socks_yellow.png', false, true),
+('Pink Baby Socks', 'Nice pair of pink socks for baby girl', 49.50, 25, 'http://sweetclipart.com/multisite/sweetclipart/files/baby_girl_socks_pink.png', false, true),
+('Phintastic Socks', 'The socks to impress all the girls', 249.50, 88, 'https://cdn.shopify.com/s/files/1/0002/4179/5099/products/Phintastic_hero_copy_7_2048x.png?v=1526476988', false, true);
 
 
 -- --------------------------------------------------------
