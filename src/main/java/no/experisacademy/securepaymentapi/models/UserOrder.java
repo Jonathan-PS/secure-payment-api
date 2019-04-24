@@ -24,6 +24,12 @@ public class UserOrder implements Serializable {
     @Column(name = "order_email")
     private String orderEmail;
 
+    @Column(name = "total_price")
+    private Double totalPrice;
+
+    @Column(name = "currency")
+    private String currency;
+
     @Column(name = "created_at")
     private Date createdAt;
 
@@ -50,12 +56,14 @@ public class UserOrder implements Serializable {
         this.isActive = isActive;
     }
 
-    public UserOrder(Long userOrderId, Long registeredUserId, String shippingName, String shippingAddress, String orderEmail, Date createdAt, Date updatedAt, String status, boolean isActive) {
+    public UserOrder(Long userOrderId, Long registeredUserId, String shippingName, String shippingAddress, String orderEmail, Double totalPrice, String currency, Date createdAt, Date updatedAt, String status, boolean isActive) {
         this.userOrderId = userOrderId;
         this.registeredUserId = registeredUserId;
         this.shippingName = shippingName;
         this.shippingAddress = shippingAddress;
         this.orderEmail = orderEmail;
+        this.totalPrice = totalPrice;
+        this.currency = currency;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.status = status;
@@ -96,6 +104,22 @@ public class UserOrder implements Serializable {
 
     public String getOrderEmail() {
         return orderEmail;
+    }
+
+    public Double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     public void setOrderEmail(String orderEmail) {

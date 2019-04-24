@@ -31,6 +31,8 @@ public class UserOrderController {
                 userOrder.getShippingName(),
                 userOrder.getShippingAddress(),
                 userOrder.getOrderEmail(),
+                userOrder.getTotalPrice(),
+                userOrder.getCurrency(),
                 date,
                 date,
                 "in progress",
