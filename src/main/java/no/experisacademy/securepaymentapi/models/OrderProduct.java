@@ -26,6 +26,9 @@ public class OrderProduct {
     @Column(name = "is_active")
     private boolean isActive;
 
+    private Product product;
+
+
     public OrderProduct() {
     }
 
@@ -83,5 +86,13 @@ public class OrderProduct {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }

@@ -2,6 +2,7 @@ package no.experisacademy.securepaymentapi.controllers;
 
 import no.experisacademy.securepaymentapi.models.OrderProduct;
 import no.experisacademy.securepaymentapi.repositories.OrderProductRepository;
+import no.experisacademy.securepaymentapi.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,9 @@ public class OrderProductController {
     @Autowired
     OrderProductRepository repository;
 
+    @Autowired
+    ProductRepository productRepository;
+
     @GetMapping("/orderproducts")
     public List<OrderProduct> findAllProducts(){
         List<OrderProduct> orderProductControllers = repository.findAll();
@@ -24,6 +28,11 @@ public class OrderProductController {
     @GetMapping("/orderproducts/orders/{userOrderId}")
     public List<OrderProduct> findOrderProductByUserId(@PathVariable Long userOrderId){
         List<OrderProduct> orderProducts = repository.findByUserOrderId(userOrderId);
+
+        for(OrderProduct op : orderProducts){
+            Long productId  = op.getProductId();
+            op.setProduct(productRepository.findById(productId).get());
+        }
         return orderProducts;
     }
 
