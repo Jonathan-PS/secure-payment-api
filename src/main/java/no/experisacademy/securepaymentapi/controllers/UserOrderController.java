@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -39,6 +40,18 @@ public class UserOrderController {
                 true));
 
         return newOrder.getUserOrderId();
+    }
+
+    /* Returns a UserOrder by id*/
+    @GetMapping("/orders/{userOrderId}")
+    public UserOrder findUserOrderByUserOrderId(@PathVariable long userOrderId) {
+        Optional<UserOrder> userOrder = repository.findById(userOrderId);
+        try {
+            return userOrder.get();
+        } catch (Exception e) {
+            System.out.println("User not found");
+            return null;
+        }
     }
 
     // LIST ALL ORDERS FOR A USER
