@@ -46,6 +46,13 @@ public class RegisteredUserController {
       return "New user is created";
   }
 
+  @PutMapping("/users/test")
+  public String test(@RequestBody RegisteredUser registeredUser) {
+    Date date = new Date();
+    repository.registerUser(registeredUser);
+    return "New user is created";
+  }
+
   /** Takes email and password from the client,
    * tries to log them in,
    * then create a Session and returns a login confirmation.

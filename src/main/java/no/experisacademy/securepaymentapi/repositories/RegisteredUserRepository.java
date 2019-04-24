@@ -14,4 +14,7 @@ public interface RegisteredUserRepository extends JpaRepository<RegisteredUser, 
 
   @Query("select r from RegisteredUser r where r.email = :#{#registeredUser.email} AND r.password =:#{#registeredUser.password}")
   List<RegisteredUser> login(@Param("registeredUser") RegisteredUser registeredUser);
+
+  @Query(value = "INSERT INTO registered_user (email, first_name, last_name, password, created_at, is_active) VALUES (:#{#registeredUser.email}, :#{#registeredUser.firstName}, :#{#registeredUser.lastName}, crypt(:#{#registeredUser.password}, gen_salt('md5')), NOW(), true);", nativeQuery = true)
+  RegisteredUser registerUser(@Param("registeredUser") RegisteredUser registeredUser);
 }
