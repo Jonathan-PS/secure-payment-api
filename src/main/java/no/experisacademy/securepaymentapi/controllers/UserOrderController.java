@@ -18,7 +18,7 @@ public class UserOrderController {
 
     @GetMapping("/orders")
     public List<UserOrder> findAllOrders() {
-        List<UserOrder> userOrders = repository.findAll();
+        List<UserOrder> userOrders = repository.findAllOrderedById();
 
         return userOrders;
     }

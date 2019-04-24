@@ -5,6 +5,9 @@ import com.google.gson.GsonBuilder;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.*;
+import no.experisacademy.securepaymentapi.models.UserOrder;
+import no.experisacademy.securepaymentapi.repositories.UserOrderRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,9 @@ import java.util.Map;
 
 @Service
 public class StripeService {
+
+    @Autowired
+    UserOrderRepository userOrderRepository;
 
     @Value("sk_test_5B0GI5Lt8GUHvvptHkURkfY000Xj6Tvvii")
     private String secretKey;
@@ -203,6 +209,12 @@ public class StripeService {
         }
 
         return cardId.toString();
+    }
+
+    public void setStatus(Long userOrderId, String status){
+        UserOrder userOrder = userOrderRepository.getOne(userOrderId);
+        userOrder.setStatus(status);
+        userOrderRepository.save(userOrder);
     }
 
     /**

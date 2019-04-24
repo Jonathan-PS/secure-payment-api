@@ -17,7 +17,7 @@ public class StripeChargeRequest {
     private Long stripe_charge_request_id;
 
     @Column(name = "user_order_id")
-    private Integer userOrderId;
+    private Long userOrderId;
 
     @Column(name = "currency")
     private String currency;
@@ -75,7 +75,7 @@ public class StripeChargeRequest {
     }
 
 
-    public StripeChargeRequest(Integer userOrderId, String currency, Integer amount, String receiptEmail, String token, String description, String last4, Date createdAt, String stripeChargeId, String receiptUrl, String stripeStatus, Boolean paid, String outcomeNetworkStatus, String outcomeRiskLevel, Long outcomeRiskScore, String outcomeSellerMessage, String outcomeType, boolean isActive) {
+    public StripeChargeRequest(Long userOrderId, String currency, Integer amount, String receiptEmail, String token, String description, String last4, Date createdAt, String stripeChargeId, String receiptUrl, String stripeStatus, Boolean paid, String outcomeNetworkStatus, String outcomeRiskLevel, Long outcomeRiskScore, String outcomeSellerMessage, String outcomeType, boolean isActive) {
         this.userOrderId = userOrderId;
         this.currency = currency;
         this.amount = amount;
@@ -96,7 +96,7 @@ public class StripeChargeRequest {
         this.isActive = isActive;
     }
 
-    public StripeChargeRequest(Integer userOrderId, String currency, Integer amount, String receiptEmail, String token, String description, Date createdAt, String stripeChargeId, String receiptUrl, String stripeStatus, Boolean paid, String outcomeNetworkStatus, String outcomeRiskLevel, Long outcomeRiskScore, String outcomeSellerMessage, String outcomeType, boolean isActive) {
+    public StripeChargeRequest(Long userOrderId, String currency, Integer amount, String receiptEmail, String token, String description, Date createdAt, String stripeChargeId, String receiptUrl, String stripeStatus, Boolean paid, String outcomeNetworkStatus, String outcomeRiskLevel, Long outcomeRiskScore, String outcomeSellerMessage, String outcomeType, boolean isActive) {
         this.userOrderId = userOrderId;
         this.currency = currency;
         this.amount = amount;
@@ -124,11 +124,11 @@ public class StripeChargeRequest {
         this.stripe_charge_request_id = stripe_charge_request_id;
     }
 
-    public Integer getUserOrderId() {
+    public Long getUserOrderId() {
         return userOrderId;
     }
 
-    public void setUserOrderId(Integer userOrderId) {
+    public void setUserOrderId(Long userOrderId) {
         this.userOrderId = userOrderId;
     }
 

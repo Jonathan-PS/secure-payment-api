@@ -5,6 +5,7 @@ import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
 import no.experisacademy.securepaymentapi.models.StripeChargeRequest;
 import no.experisacademy.securepaymentapi.repositories.StripeChargeRepository;
+import no.experisacademy.securepaymentapi.repositories.UserOrderRepository;
 import no.experisacademy.securepaymentapi.services.StripeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +23,9 @@ import java.util.Map;
 public class StripeChargeController {
     @Autowired
     StripeChargeRepository repository;
+
+    @Autowired
+    UserOrderRepository userOrderRepository;
 
     @Autowired
     StripeService service;
@@ -43,39 +47,52 @@ public class StripeChargeController {
         //stripeChargeRequest.setCurrency(StripeChargeRequest.Currency.nok);
         Date date = new Date();
 
-        Map<String, Object> chargeParams = new HashMap<>();
-        chargeParams.put("amount", Integer.toString(stripeChargeRequest.getAmount()));
-        chargeParams.put("currency", stripeChargeRequest.getCurrency());
-        //chargeParams.put("customer", "");
-        chargeParams.put("description", stripeChargeRequest.getDescription());
-        chargeParams.put("source", stripeChargeRequest.getToken());
-        Charge charge =  Charge.create(chargeParams);
+        try{
+            Map<String, Object> chargeParams = new HashMap<>();
+            chargeParams.put("amount", Integer.toString(stripeChargeRequest.getAmount()));
+            chargeParams.put("currency", stripeChargeRequest.getCurrency());
+            //chargeParams.put("customer", "");
+            chargeParams.put("description", stripeChargeRequest.getDescription());
+            chargeParams.put("source", stripeChargeRequest.getToken());
+            Charge charge =  Charge.create(chargeParams);
 
-        // Print to console
-        System.out.println("Customer Payment is created!");
-        service.gsonPrettyPrint(charge);
+            // Print to console
+            System.out.println("Customer Payment is created!");
+            service.gsonPrettyPrint(charge);
 
-        repository.save(new StripeChargeRequest(
-                stripeChargeRequest.getUserOrderId(),
-                stripeChargeRequest.getCurrency(),
-                stripeChargeRequest.getAmount(),
-                stripeChargeRequest.getReceiptEmail(),
-                stripeChargeRequest.getToken(),
-                charge.getDescription(),
-                date,
-                charge.getId(),
-                charge.getReceiptUrl(),
-                charge.getStatus(),
-                charge.getPaid(),
-                charge.getOutcome().getNetworkStatus(),
-                charge.getOutcome().getRiskLevel(),
-                charge.getOutcome().getRiskScore(),
-                charge.getOutcome().getSellerMessage(),
-                charge.getOutcome().getType(),
-                true
-                ));
+            repository.save(new StripeChargeRequest(
+                    stripeChargeRequest.getUserOrderId(),
+                    stripeChargeRequest.getCurrency(),
+                    stripeChargeRequest.getAmount(),
+                    stripeChargeRequest.getReceiptEmail(),
+                    stripeChargeRequest.getToken(),
+                    charge.getDescription(),
+                    date,
+                    charge.getId(),
+                    charge.getReceiptUrl(),
+                    charge.getStatus(),
+                    charge.getPaid(),
+                    charge.getOutcome().getNetworkStatus(),
+                    charge.getOutcome().getRiskLevel(),
+                    charge.getOutcome().getRiskScore(),
+                    charge.getOutcome().getSellerMessage(),
+                    charge.getOutcome().getType(),
+                    true
+            ));
 
-        return stripeChargeRequest;
+            service.setStatus(stripeChargeRequest.getUserOrderId(), "Completed");
+
+
+            return stripeChargeRequest;
+
+        }catch (Exception e){
+            System.out.println(e);
+
+            service.setStatus(stripeChargeRequest.getUserOrderId(), "Failed");
+            return null;
+
+        }
+
     }
 
     /*@PutMapping("/stripe/charge")
