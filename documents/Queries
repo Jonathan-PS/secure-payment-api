@@ -9,7 +9,7 @@ DROP TABLE product;
 
 CREATE TABLE product(
     product_id SERIAL PRIMARY KEY,
-    product_name varchar(255) UNIQUE NOT NULL,
+    product_name varchar(255) UNIQUE NOT NULL, -- UNIQUE makes this table IDEMPOTENT
     description varchar(255) NOT NULL,
     price_each double precision NOT NULL,
     stock int NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE registered_user
     registered_user_id SERIAL PRIMARY KEY,
     first_name varchar(255) NOT NULL,
     last_name varchar(255) NOT NULL,
-    email varchar(255) UNIQUE NOT NULL,
+    email varchar(255) UNIQUE NOT NULL, -- UNIQUE makes this table IDEMPOTENT
     password varchar(255) NOT NULL,
     created_at timestamptz NOT NULL,
     is_active boolean NOT NULL
@@ -85,19 +85,20 @@ CREATE TABLE address
     country varchar(255) NOT NULL,
     registered_user_id bigint NOT NULL REFERENCES registered_user(registered_user_id),
     is_current boolean NOT NULL,
-    is_active boolean NOT NULL
+    is_active boolean NOT NULL,
+    unique(registered_user_id, street_name, street_number, housing_code, postal_code, city, country, is_active)
 );
 
 select * from address;
 
 INSERT INTO address (street_name, street_number, housing_code, postal_code, city, country, is_active, is_current, registered_user_id)
 VALUES
-('Drammensveien', '1', 'H001', "0123", 'OSLO', 'Norway', true, true, 1),
-('Keep',          '1', 'H101', "8999", 'Winterfell', 'The North', true, true, 2),
-('DS',            '1',  null,  "5541", 'Dragonstone', 'Westcoast', true, true, 3),
-('Unknown',       '0',  null,  "0000", 'Unknown', 'Unknown', true, false, 4),
-('Cleganes Keep', '1' , null,  "2257", 'Westerlands', 'Westerlands', true, true,  4),
-('Pyke',          '1a', null,  "8123", 'Pyke', 'Iron Islands', true, true, 5)
+('Drammensveien', '1', 'H001', '0123', 'OSLO', 'Norway', true, true, 1),
+('Keep',          '1', 'H101', '8999', 'Winterfell', 'The North', true, true, 2),
+('DS',            '1',  null,  '5541', 'Dragonstone', 'Westcoast', true, true, 3),
+('Unknown',       '0',  null,  '0000', 'Unknown', 'Unknown', true, false, 4),
+('Cleganes Keep', '1' , null,  '2257', 'Westerlands', 'Westerlands', true, true,  4),
+('Pyke',          '1a', null,  '8123', 'Pyke', 'Iron Islands', true, true, 5)
 ;
 
 -- Foreign key restraint at work:
@@ -124,6 +125,8 @@ CREATE TABLE user_order
     shipping_address varchar(255) NOT NULL,
     order_email varchar(255) NOT NULL,
     shipping_name varchar(255) NOT NULL,
+    total_price double precision NOT NULL,
+    currency varchar(255) NOT NULL,
     created_at timestamptz NOT NULL,
     updated_at timestamptz NOT NULL,
     status varchar(255) NOT NULL,
@@ -134,15 +137,15 @@ CREATE TABLE user_order
 
 select * from user_order;
 
-INSERT INTO user_order (shipping_address, order_email, shipping_name, created_at, updated_at, status, registered_user_id,is_active)
+INSERT INTO user_order (shipping_address, order_email, shipping_name, total_price, currency, created_at, updated_at, status, registered_user_id,is_active)
 VALUES
-('Drammensveien 1, H001, 0123 OSLO, Norway', 'ola@nordmann.com', 'Ola Nordmann', NOW(), NOW(), 'completed', 1, true),
-('DS 1,  5541 Dragonstone, Crownlands', 'dani@targaryen.com', 'Daenerys Targaryen', NOW(), NOW(), 'in-progress', 3, true),
-('Red Keep 1, 0001 Kings Landing, Crownlands', 'robert@king.west', 'Robert Baratheon', NOW(), NOW(), 'failed', null, true),
-('Keep of the Iron Islands', 'euron@greyjoy.com', 'Euron Greyjoy', NOW(), NOW(), 'in-progress', null, true),
-('Keep 1, H101, 8999 Winterfell, The North', 'jon.snow@stark.com', 'Jon Snow', NOW(), NOW(), 'failed', 2, true),
-('Unknown', 'thehound@clegane.com', 'Sandor Clegane', NOW(), NOW(), 'in-progress', 4, true),
-('Riverrun', 'thehound@clegane.com', 'Sandor Clegane', NOW(), NOW(), 'completed', 4, true)
+('Drammensveien 1, H001, 0123 OSLO, Norway', 'ola@nordmann.com', 'Ola Nordmann', 255, 'nok', NOW(), NOW(), 'completed', 1, true),
+('DS 1,  5541 Dragonstone, Crownlands', 'dani@targaryen.com', 'Daenerys Targaryen', 123,  'nok', NOW(), NOW(), 'in-progress', 3, true),
+('Red Keep 1, 0001 Kings Landing, Crownlands', 'robert@king.west', 'Robert Baratheon', 643, 'nok', NOW(), NOW(), 'failed', null, true),
+('Keep of the Iron Islands', 'euron@greyjoy.com', 'Euron Greyjoy', 79, 'nok', NOW(), NOW(), 'in-progress', null, true),
+('Keep 1, H101, 8999 Winterfell, The North', 'jon.snow@stark.com', 'Jon Snow', 88,  'nok', NOW(), NOW(), 'failed', 2, true),
+('Unknown', 'thehound@clegane.com', 'Sandor Clegane', 160, 'nok', NOW(), NOW(), 'in-progress', 4, true),
+('Riverrun', 'thehound@clegane.com', 'Sandor Clegane', 49, 'nok', NOW(), NOW(), 'completed',  4, true)
 ;
 
 
@@ -205,7 +208,7 @@ CREATE TABLE stripe_charge_request
     amount double precision NOT NULL,
     currency varchar(255) NOT NULL,
     receipt_email varchar(255) NOT NULL,
-    token varchar(255) NOT NULL,
+    token  varchar(255) unique NOT NULL, -- UNIQUE makes this table IDEMPOTENT
     description varchar(255),
     last4 varchar(255),
     created_at timestamptz NOT NULL,
@@ -227,10 +230,9 @@ CREATE TABLE stripe_charge_request
 
 select * from stripe_charge_request;
 
-INSERT INTO stripe_charge_request(user_order_id, amount, currency, receipt_email, token, is_active)
+INSERT INTO stripe_charge_request(user_order_id, amount, currency, receipt_email, token, created_at, is_active)
 VALUES
-(1, 369.46, 'NOK', 'ola@nordmann.com', 'tok_visa', true),
-(2, 148.5, 'NOK', 'dani@targaryen.com', 'tok_visa', true);
+(1, 369.46, 'NOK', 'ola@nordmann.com', 'tok_visa', Now(), true);
 
 
 
