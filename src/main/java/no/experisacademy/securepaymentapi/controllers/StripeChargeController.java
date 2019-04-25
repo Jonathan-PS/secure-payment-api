@@ -8,7 +8,6 @@ import no.experisacademy.securepaymentapi.repositories.StripeChargeRepository;
 import no.experisacademy.securepaymentapi.repositories.UserOrderRepository;
 import no.experisacademy.securepaymentapi.services.StripeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,21 +29,18 @@ public class StripeChargeController {
     @Autowired
     StripeService service;
 
-    @Value("sk_test_5B0GI5Lt8GUHvvptHkURkfY000Xj6Tvvii")
-    private String secretKey;
+    /*@Value("sk_test_5B0GI5Lt8GUHvvptHkURkfY000Xj6Tvvii")
+    private String secretKey;*/
 
     @PostConstruct
     public void init() {
-        Stripe.apiKey = secretKey;
+        Stripe.apiKey = System.getenv("STRIPE_SECRET_KEY");
     }
 
 
     @PutMapping("/stripe/charge")
     public StripeChargeRequest chargeRequest(@RequestBody StripeChargeRequest stripeChargeRequest, Model model)
             throws StripeException {
-        //gsonPrettyPrint(stripeChargeRequest);
-        //stripeChargeRequest.setDescription("Example charge");
-        //stripeChargeRequest.setCurrency(StripeChargeRequest.Currency.nok);
         Date date = new Date();
 
         try{
@@ -86,7 +82,7 @@ public class StripeChargeController {
             return stripeChargeRequest;
 
         }catch (Exception e){
-            System.out.println(e);
+            System.out.println();
 
             service.setStatus(stripeChargeRequest.getUserOrderId(), "Failed");
             return null;

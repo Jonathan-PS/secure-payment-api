@@ -8,7 +8,6 @@ import com.stripe.model.*;
 import no.experisacademy.securepaymentapi.models.UserOrder;
 import no.experisacademy.securepaymentapi.repositories.UserOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -22,12 +21,12 @@ public class StripeService {
     @Autowired
     UserOrderRepository userOrderRepository;
 
-    @Value("sk_test_5B0GI5Lt8GUHvvptHkURkfY000Xj6Tvvii")
-    private String secretKey;
+    /*@Value("sk_test_5B0GI5Lt8GUHvvptHkURkfY000Xj6Tvvii")
+    private String secretKey;*/
 
     @PostConstruct
     public void init() {
-        Stripe.apiKey = secretKey;
+        Stripe.apiKey = System.getenv("STRIPE_SECRET_KEY");
     }
 
     /**
