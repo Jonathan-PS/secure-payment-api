@@ -39,10 +39,11 @@ PUT: /orders/create
 {
 	"registeredUserId": 1,
 	"shippingName": "Ola Normann",
-	"shippingAddress": "Drammensveien 61b, 1231 Oslo"
-	"orderEmail": "ola.normann@mail.no"
+	"shippingAddress": "Drammensveien 61b, 1231 Oslo",
+	"orderEmail": "ola.normann@mail.no",
+	"totalPrice": 20.00,
+	"currency": "nok"
 }
-
 PUT: /orderproducts/create
 {
   "userOrderId": 1,

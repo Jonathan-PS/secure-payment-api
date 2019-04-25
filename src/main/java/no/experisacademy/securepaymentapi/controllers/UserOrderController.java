@@ -56,7 +56,7 @@ public class UserOrderController {
     // LIST ALL ORDERS FOR A USER
     @GetMapping("/orders/users/{registeredUserId}")
     public List<UserOrder> findOrdersByRegisteredUserId(@PathVariable Long registeredUserId){
-        List<UserOrder> userOrders = repository.findByRegisteredUserId(registeredUserId);
+        List<UserOrder> userOrders = repository.findByRegisteredUserIdOrdered(registeredUserId);
         return userOrders;
     }
 }

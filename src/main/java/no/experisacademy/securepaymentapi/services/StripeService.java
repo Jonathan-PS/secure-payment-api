@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -212,8 +213,10 @@ public class StripeService {
     }
 
     public void setStatus(Long userOrderId, String status){
+        Date date = new Date();
         UserOrder userOrder = userOrderRepository.getOne(userOrderId);
         userOrder.setStatus(status);
+        userOrder.setUpdatedAt(date);
         userOrderRepository.save(userOrder);
     }
 
