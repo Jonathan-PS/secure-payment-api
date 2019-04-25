@@ -20,15 +20,19 @@ CREATE TABLE product(
 
 select * from product;
 
-
-INSERT INTO product (product_name, description, price_each, stock, image_url, is_digital, is_active)
-VALUES ('Red Socks', 'Nice pair of red socks', 79.99, 10, 'http://sweetclipart.com/multisite/sweetclipart/files/socks_red.png', false, true),
-('White Socks', 'White socks not gonna stay white for long', 79.99, 25, 'http://sweetclipart.com/multisite/sweetclipart/files/socks_outline.png', false, true),
-('Blue Baby Socks', 'Nice pair of blue socks for baby boy', 49.50, 25, 'http://sweetclipart.com/multisite/sweetclipart/files/baby_boy_socks_blue.png', false, true),
-('Yellow Baby Socks', 'Nice pair of yellow socks', 49.50, 25, 'http://sweetclipart.com/multisite/sweetclipart/files/baby_socks_yellow.png', false, true),
-('Pink Baby Socks', 'Nice pair of pink socks for baby girl', 49.50, 25, 'http://sweetclipart.com/multisite/sweetclipart/files/baby_girl_socks_pink.png', false, true),
-('Phintastic Socks', 'The socks to impress all the girls', 249.50, 88, 'https://cdn.shopify.com/s/files/1/0002/4179/5099/products/Phintastic_hero_copy_7_2048x.png?v=1526476988', false, true);
-
+-- HELENS SUGGESTIONS --
+INSERT INTO product(product_name, description, price_each, stock, image_url, is_digital, is_active)
+VALUES
+('Mario Kart Racer Socks', 'Do not slip on the banana peels of boring socks, grab this pair and win every time!',100.00, 25, 'http://oi65.tinypic.com/a595bt.jpg', false, true),
+('Dexters Laboratory Socks', 'Make your feet stand out from all of the "STUPID" boring socks!',125.00, 32, 'http://oi67.tinypic.com/2a7fkmg.jpg', false, true),
+('Zelda Varsity Socks', 'Take your sock game to the next level and join Link in saving Hyrule!',100.00, 54, 'http://oi63.tinypic.com/25s4hf6.jpg', false, true),
+('Harry Potter Socks', 'One can never have enough socks', 75.00, 0, 'https://images-na.ssl-images-amazon.com/images/I/61wxldyWmpL._UL1024_.jpg', false, true),
+('Sock Background v1', 'Socks on an image', 49.50, 5, 'https://previews.123rf.com/images/lilipom/lilipom1601/lilipom160100037/51937424-seamless-pattern-of-socks-on-a-white-background.jpg', true, true),
+('Artwork Hansel and Gretel', '3D artwork featuring the cabin of the witch in Hansel and Gretel', 150.00, 5, 'http://oi67.tinypic.com/30hpr8g.jpg', true, true),
+('Artwork Forgotten Teddybear', '3D artwork featuring the a forgotten teddybear in an attic', 150.00, 5, 'http://oi64.tinypic.com/2801w7k.jpg', true, true),
+('Artwork War Hammerhead Sharks', '3D artwork featuring two War Hammerhead Sharks', 150.00, 5, 'http://oi65.tinypic.com/10or3ih.jpg', true, true),
+('Photo Norwegian Nature - Boat', 'Photo featuring a boat in beautiful Norwegian nature', 100.00, 90, 'http://oi67.tinypic.com/ms2e7b.jpg', true, true),
+('Photo Norwegian Nature - Rocks', 'Photo featuring some rocks and water',100.00, 5, 'http://oi66.tinypic.com/1z5kwu8.jpg', true, true);
 
 -- --------------------------------------------------------
 
@@ -44,7 +48,7 @@ CREATE TABLE registered_user
     registered_user_id SERIAL PRIMARY KEY,
     first_name varchar(255) NOT NULL,
     last_name varchar(255) NOT NULL,
-    email varchar(255) UNIQUE NOT NULL, -- UNIQUE makes this table IDEMPOTENT
+    email varchar(255) UNIQUE NOT NULL,
     password varchar(255) NOT NULL,
     created_at timestamptz NOT NULL,
     is_active boolean NOT NULL
@@ -55,15 +59,9 @@ SELECT * FROM registered_user;
 
 INSERT INTO registered_user (email, first_name, last_name, password, created_at, is_active)
 VALUES
-('ola@nordmann.com', 'Ola', 'Nordmann', 'askeladden', NOW(), true),
-('jon.snow@stark.com', 'Jon', 'Snow', 'daenerys', NOW(), true),
-('dani@targaryen.com', 'Daenerys', 'Targaryen', 'auntieknowsbest', NOW(), true),
-('thehound@clegane.got', 'Sandor', 'Clegane', 'fucktheking', NOW(), true),
-('theon@greyjoy.com', 'Theon', 'Greyjoy', 'winterfell', NOW(), true),
-('kari@nordmann.com', 'Kari', 'Nordmann', 'pippilangstrompe', NOW(), true)
-
+('ola@nordmann.com',  'Ola', 'Nordmann', crypt('olaola',   gen_salt('md5')), NOW(), true),
+('kari@nordmann.com', 'Kari', 'Nordmann',crypt('karikari', gen_salt('md5')), NOW(), true)
 ;
-
 
 
 
@@ -94,20 +92,9 @@ select * from address;
 
 INSERT INTO address (street_name, street_number, housing_code, postal_code, city, country, is_active, is_current, registered_user_id)
 VALUES
-('Drammensveien', '1', 'H001', '0123', 'OSLO', 'Norway', true, true, 1),
-('Keep',          '1', 'H101', '8999', 'Winterfell', 'The North', true, true, 2),
-('DS',            '1',  null,  '5541', 'Dragonstone', 'Westcoast', true, true, 3),
-('Unknown',       '0',  null,  '0000', 'Unknown', 'Unknown', true, false, 4),
-('Cleganes Keep', '1' , null,  '2257', 'Westerlands', 'Westerlands', true, true,  4),
-('Pyke',          '1a', null,  '8123', 'Pyke', 'Iron Islands', true, true, 5)
+('Drammensveien', '1', 'H0101', 0123, 'Oslo', 'Norway', true, true, 1),
+('Oslogate',      '3', 'H0203', 8999, 'Bergen', 'Norway', true, true, 2)
 ;
-
--- Foreign key restraint at work:
-INSERT INTO address (street_name, street_number, housing_code, postal_code, city, country, is_active, registered_user_id)
-VALUES
-('Pyke',          '1a', null,  8123, 'Pyke', 'Iron Islands', true, 10001);
-
-select * from address;
 
 
 
@@ -138,16 +125,10 @@ CREATE TABLE user_order
 
 select * from user_order;
 
-INSERT INTO user_order (shipping_address, order_email, shipping_name, total_price, currency, created_at, updated_at, status, registered_user_id,is_active)
-VALUES
-('Drammensveien 1, H001, 0123 OSLO, Norway', 'ola@nordmann.com', 'Ola Nordmann', 255, 'nok', NOW(), NOW(), 'completed', 1, true),
-('DS 1,  5541 Dragonstone, Crownlands', 'dani@targaryen.com', 'Daenerys Targaryen', 123,  'nok', NOW(), NOW(), 'in-progress', 3, true),
-('Red Keep 1, 0001 Kings Landing, Crownlands', 'robert@king.west', 'Robert Baratheon', 643, 'nok', NOW(), NOW(), 'failed', null, true),
-('Keep of the Iron Islands', 'euron@greyjoy.com', 'Euron Greyjoy', 79, 'nok', NOW(), NOW(), 'in-progress', null, true),
-('Keep 1, H101, 8999 Winterfell, The North', 'jon.snow@stark.com', 'Jon Snow', 88,  'nok', NOW(), NOW(), 'failed', 2, true),
-('Unknown', 'thehound@clegane.com', 'Sandor Clegane', 160, 'nok', NOW(), NOW(), 'in-progress', 4, true),
-('Riverrun', 'thehound@clegane.com', 'Sandor Clegane', 49, 'nok', NOW(), NOW(), 'completed',  4, true)
-;
+-- INSERT INTO user_order (shipping_address, order_email, shipping_name, total_price, currency, created_at, updated_at, status, registered_user_id,is_active)
+-- VALUES
+-- ('Drammensveien 1, H0101, 0123 OSLO, Norway', 'ola@nordmann.com', 'Ola Nordmann', 255, 'nok', NOW(), NOW(), 'completed', 1, true)
+-- ;
 
 
 
@@ -174,20 +155,12 @@ CREATE TABLE order_product
 
 select * from order_product;
 
-INSERT INTO order_product(user_order_id, product_id, price_each, quantity,is_active)
-VALUES
-(1,1,79.99,2,true),
-(1,2,79.99,2,true),
-(1,3,49.5,1,true),
-(2,3,49.5,1,true),
-(2,4,49.5,2,true),
-(3,4,49.5,2,true),
-(4,4,49.5,2,true),
-(5,4,49.5,2,true),
-(6,6,249.5,2,true),
-(6,2,79.99,4,true),
-(7,6,249.5,2,true),
-(7,4,49.5,2,true);
+
+-- INSERT INTO order_product(user_order_id, product_id, price_each, quantity,is_active)
+-- VALUES
+-- (1,1,79.99,2,true),
+-- (1,2,79.99,2,true)
+-- ;
 
 
 
@@ -231,9 +204,9 @@ CREATE TABLE stripe_charge_request
 
 select * from stripe_charge_request;
 
-INSERT INTO stripe_charge_request(user_order_id, amount, currency, receipt_email, token, created_at, is_active)
-VALUES
-(1, 369.46, 'NOK', 'ola@nordmann.com', 'tok_visa', Now(), true);
+-- INSERT INTO stripe_charge_request(user_order_id, amount, currency, receipt_email, token, created_at, is_active)
+-- VALUES
+-- (1, 369.46, 'NOK', 'ola@nordmann.com', 'tok_visa', Now(), true);
 
 
 
