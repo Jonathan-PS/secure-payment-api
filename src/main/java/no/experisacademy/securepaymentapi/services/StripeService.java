@@ -211,6 +211,116 @@ public class StripeService {
         return cardId.toString();
     }
 
+    public static void printCustomerIdByEmail(String email) throws StripeException {
+        // Get Customer ID from email
+
+        Map<String, Object> options = new HashMap<>();
+        options.put("email", email);
+        List<Customer> customers = Customer.list(options).getData();
+
+        if (customers.size() > 0) {
+            Customer customer = customers.get(0);
+            String cusId = customer.getId();
+            System.out.println("Customer with email '" + email + "' exist!");
+            System.out.println(cusId);
+        } else {
+            System.out.println("No customers with that email");
+        }
+
+        System.out.println("CUSTOMER INFO:\n"+customers);
+    }
+
+
+    public static void addPaymentDefaultCard(String cusId, int amount, String currency, String description) throws StripeException {
+
+        Customer customer = Customer.retrieve(cusId);
+        Map<String, Object> chargeParam = new HashMap<String, Object>();
+
+        // Convert params to correct StripePayment params
+        String amountString = Integer.toString(amount);
+        String currencyToLower = currency.toLowerCase();
+
+        // Add payment parameters
+        chargeParam.put("amount", amountString); // 100 = 1.00 currency
+        chargeParam.put("currency",currencyToLower); // for cents min 50
+        chargeParam.put("description", description);
+        chargeParam.put("customer",customer.getId()); // Using Customer ID (and get default card!)
+        //chargeParam.put("source", "tok_mastercard");
+        // ^ obtained with StripePayment.js
+
+        // METADATA - Order_id
+        Map<String, String> initialMetadata = new HashMap<String, String>();
+        initialMetadata.put("order_id", "1234");
+        chargeParam.put("metadata", initialMetadata);
+
+        // Create Payment with parameters
+        Charge charge = Charge.create(chargeParam);
+
+        // Print to console
+        System.out.println("Customer Payment for id "+ cusId +"is created!");
+    }
+
+    public static void addPaymentSelectCard(String cusId, String cardId, int amount, String currency) throws StripeException {
+
+        Customer customer = Customer.retrieve(cusId);
+        Map<String, Object> chargeParam = new HashMap<String, Object>();
+
+        // Convert params to correct StripePayment params
+        String amountString = Integer.toString(amount);
+        String currencyToLower = currency.toLowerCase();
+
+        // Add payment parameters
+        chargeParam.put("amount", amountString); // 100 = 1.00 currency
+        chargeParam.put("currency",currencyToLower); // for cents min 50
+        chargeParam.put("customer",cusId);
+        chargeParam.put("source",cardId); // Selecting card by card id
+
+        // METADATA - Order_id
+        Map<String, String> initialMetadata = new HashMap<String, String>();
+        initialMetadata.put("order_id", "1234");
+        chargeParam.put("metadata", initialMetadata);
+
+        // Create Payment with parameters
+        Charge charge = Charge.create(chargeParam);
+
+        // Print to console
+        System.out.println("Customer Payment for id "+ cusId +"is created!");
+        //System.out.println("Token: ");
+        //gsonPrettyPrint(token);
+
+    }
+
+    public static void addPaymentWithToken(String token, int amount, String currency) throws StripeException {
+
+        //Customer customer = Customer.retrieve(cusId);
+        Map<String, Object> chargeParam = new HashMap<String, Object>();
+
+        // Convert params to correct StripePayment params
+        String amountString = Integer.toString(amount);
+        String currencyToLower = currency.toLowerCase();
+
+        // Add payment parameters
+        //chargeParam.put("email", email); // 100 = 1.00 currency
+        chargeParam.put("amount", amountString); // 100 = 1.00 currency
+        chargeParam.put("currency",currencyToLower); // for cents min 50
+        //chargeParam.put("customer",cusId);
+        chargeParam.put("source",token); // Selecting card by card id
+
+        // METADATA - Order_id
+        Map<String, String> initialMetadata = new HashMap<String, String>();
+        initialMetadata.put("order_id", "1234");
+        chargeParam.put("metadata", initialMetadata);
+
+        // Create Payment with parameters
+        Charge charge = Charge.create(chargeParam);
+
+        // Print to console
+        System.out.println("Customer Payment is created with token: " + token);
+        //System.out.println("Token: ");
+        //gsonPrettyPrint(token);
+
+    }
+
     public void setStatus(Long userOrderId, String status){
         Date date = new Date();
         UserOrder userOrder = userOrderRepository.getOne(userOrderId);
