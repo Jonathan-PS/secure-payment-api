@@ -18,6 +18,7 @@ public class RegisteredUserController {
   RegisteredUserRepository repository;
 
   /* Returns all users in the database */
+  //@PreAuthorize("hasAnyRole('ADMIN')")
   @GetMapping("/users")
   public List<RegisteredUser> findAllRegistedUsers() {
     List<RegisteredUser> registeredUsers = repository.findAll();
