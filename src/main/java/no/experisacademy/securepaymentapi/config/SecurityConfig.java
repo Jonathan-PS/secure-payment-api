@@ -31,17 +31,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/products/**").permitAll()
-                .anyRequest()
-                .authenticated()
+                .antMatchers("/addresses", "/orderproducts", "/users", "/stripe", "/orders").hasRole("ADMIN")
                 .and()
                 .exceptionHandling()
-                ;
-
-                /*.antMatchers( "/**").access("hasRole('ADMIN')")
-                .anyRequest().authenticated()
                 .and()
-                .formLogin().permitAll();*/
+                .formLogin()
+                ;
     }
 
     @Bean
