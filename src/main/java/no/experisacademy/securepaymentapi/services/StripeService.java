@@ -22,9 +22,6 @@ public class StripeService {
     @Autowired
     UserOrderRepository userOrderRepository;
 
-    /*@Value("sk_test_5B0GI5Lt8GUHvvptHkURkfY000Xj6Tvvii")
-    private String secretKey;*/
-
     @PostConstruct
     public void init() {
         Stripe.apiKey = System.getenv("STRIPE_SECRET_KEY");
