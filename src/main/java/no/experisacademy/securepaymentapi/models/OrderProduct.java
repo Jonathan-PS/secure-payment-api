@@ -1,10 +1,11 @@
 package no.experisacademy.securepaymentapi.models;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "order_product")
-public class OrderProduct {
+public class OrderProduct implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

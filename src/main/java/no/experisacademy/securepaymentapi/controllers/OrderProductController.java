@@ -20,8 +20,8 @@ public class OrderProductController {
 
     @GetMapping("/orderproducts")
     public List<OrderProduct> findAllProducts(){
-        List<OrderProduct> orderProductControllers = repository.findAll();
-        return orderProductControllers;
+        List<OrderProduct> orderProducts = repository.findAll();
+        return orderProducts;
     }
 
     // LIST ALL ORDERPRODUCTS FOR AN ORDER
