@@ -1,3 +1,4 @@
+/*
 package no.experisacademy.securepaymentapi.config;
 
 import org.springframework.context.annotation.Configuration;
@@ -16,3 +17,4 @@ public class WebConfig implements WebMvcConfigurer {
         ;
     }
 }
+*/

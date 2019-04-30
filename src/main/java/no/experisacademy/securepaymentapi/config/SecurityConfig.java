@@ -1,3 +1,4 @@
+/*
 package no.experisacademy.securepaymentapi.config;
 
 import org.springframework.context.annotation.Bean;
@@ -31,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/addresses", "/orderproducts", "/users", "/orders").hasRole("ADMIN")
+                //.antMatchers("/addresses", "/orderproducts", "/users", "/orders").hasRole("ADMIN")
                 .and()
                 .exceptionHandling()
                 .and()
@@ -51,3 +52,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return source;
     }
 }
+*/
