@@ -1,3 +1,4 @@
+/*
 package no.experisacademy.securepaymentapi.config;
 
 import org.springframework.context.annotation.Bean;
@@ -51,3 +52,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return source;
     }
 }
+*/
